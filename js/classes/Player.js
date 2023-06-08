@@ -1,7 +1,7 @@
 class Player extends Sprite {
-    constructor({position, collisionBlocks, imageSrc, animations}){
+    constructor({position, collisionBlocks, imageSrc, animations, loop}){
         const frameRate = animations.Stoped.frameRate; 
-        super({imageSrc, frameRate})
+        super({imageSrc, frameRate, loop})
         this.position = position
         this.velocity = {
             x: 0,
@@ -35,6 +35,57 @@ class Player extends Sprite {
 
     }
 
+    //KEYS ANIMATION
+    handleInput(keys){
+        this.velocity.x = 0
+        //Right
+        if (keys.d.pressed) {
+            this.switchSprite('RunRight')
+            this.velocity.x = 5
+            this.lastDirection = 'right'
+            this.shouldPanCameraToTheLeft({canvas, camera})
+        }
+
+        //Left
+        else if (keys.a.pressed) {
+            this.switchSprite('Run')
+            this.velocity.x = -5;
+            this.lastDirection = 'left'
+            this.shouldPanCameraToTheRight({canvas, camera})
+        }
+
+        //Stoped
+        else if (this.velocity.y === 0) {
+
+            if (this.lastDirection === 'left') this.switchSprite('Stoped')
+            else this.switchSprite('StopedRight')
+        }
+
+
+        //Jump
+        //Move the camera
+        if (this.velocity.y < 0) this.shouldPanCameraDown({canvas, camera})
+        else if (this.velocity.y > 0) this.shouldPanCameraUp({canvas, camera})
+
+        //Move the this
+        if ((this.velocity.y < 0 || this.velocity.y > 0) && this.velocity.x < 0 )
+            this.switchSprite('Jump') 
+        
+
+        else if ((this.velocity.y < 0 || this.velocity.y > 0) && this.velocity.x > 0 ) this.switchSprite('JumpRight')
+
+
+        //Boost (BUG)
+        // if (keys.v.pressed) {
+        //     this.animations.Run.frameBuffer = 1;
+        //     this.animations.RunRight.frameBuffer = 1
+        //     if (keys.d.pressed) this.velocity.x = 8;
+        //     else if (keys.a.pressed) this.velocity.x = -8;
+        // }
+        // else if (this.animations.Run.frameBuffer = 2, this.animations.RunRight.frameBuffer = 2)
+
+    }
+
     switchSprite(key) {
         if (this.image === this.animations[key].image || !this.loaded) return;
 
@@ -42,6 +93,7 @@ class Player extends Sprite {
         this.image = this.animations[key].image;
         this.frameRate = this.animations[key].frameRate; // Update the frameRate dynamically
         this.frameBuffer = this.animations[key].frameBuffer;
+        this.loop = this.animations[key].loop;
     }
 
 

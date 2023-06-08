@@ -1,3 +1,14 @@
+html{
+}
 body{
-    background: black;
+    background: rgb(22, 22, 22);
+
+}
+
+
+.a{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }

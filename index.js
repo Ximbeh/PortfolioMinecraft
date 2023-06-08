@@ -1,21 +1,22 @@
 const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
 
-//tamanho canva
+//Canva Size
 canvas.width = 1024
 canvas.height = 576
-//576
 
 const scaledCanvas = {
     width: canvas.width,
     height: canvas.height,
 }
 
-const floorCollision2D = []
-for (let i = 0; i < floorCollisions.length; i += 32) {
-  floorCollision2D.push(floorCollisions.slice(i, i + 64))
-}
+//----------------------------------------------------------------//
 
+//Array of the collision in a new ARRAY
+const floorCollision2D = []
+for (let i = 0; i < CollisionHouseStart.length; i += 32) {
+  floorCollision2D.push(CollisionHouseStart.slice(i, i + 64))
+}
 
 const collisionBlocks = []
 
@@ -34,11 +35,12 @@ floorCollision2D.forEach((row, y) => {
             }
           })
         })
-// console.log(collisionBlocks);
 
-//global
-const gravity = 0.5
 
+//----------------------------------------------------------------//
+//NEW ITENS
+
+//Player
 const player = new Player({
     position: {
         x:100,
@@ -51,38 +53,87 @@ const player = new Player({
         Stoped: {
             imageSrc: './img/Steve/Respiração.png',
             frameRate: 28, 
-            frameBuffer: 24
+            frameBuffer: 24,
+            loop: true,
         },  
         StopedRight: {
             imageSrc: './img/Steve/RespiraçãoRight.png',
             frameRate: 28, 
-            frameBuffer: 24
+            frameBuffer: 24,
+            loop: true,
         }, 
         Run: {
             imageSrc: './img/Steve/Run.png',
             frameRate: 34, 
-            frameBuffer: 2  
+            frameBuffer: 2,
+            loop: true,  
         },
         RunRight: {
             imageSrc: './img/Steve/RunRight.png',
             frameRate: 34, 
-            frameBuffer: 2  
+            frameBuffer: 2,
+            loop: true, 
         },
         Jump: {
             imageSrc: './img/Steve/Jump.png',
             frameRate: 1, 
-            frameBuffer: 1 
+            frameBuffer: 1,
+            loop: true,
         },
         JumpRight: {
             imageSrc: './img/Steve/JumpRight.png',
             frameRate: 1, 
-            frameBuffer: 1 
+            frameBuffer: 1,
+            loop: true,
         },
-    }
+        EnterDoor: {
+            imageSrc: './img/Steve/Run.png',
+            frameRate: 34, 
+            frameBuffer: 2,
+            loop: false,
+        },
 
+        
+    }
+    
+}
+)
+
+//Door
+const doors = [
+    new Sprite({
+        position: {
+            x: 836,
+            y: 320,
+        },
+        imageSrc: './img/Door.png',
+        frameRate: 4,
+        frameBuffer: 6,
+        loop: false,
+        autoplay: false,
+    })
+]
+
+
+
+//Background
+const backgroundHouseStart = new Sprite({
+    position: {
+        x: 0,
+        y: 0,
+    },
+    imageSrc: './img/BackgroundTest/HomeBC.png'
 })
 
-//teclas
+const backgroundImageHeight = 576
+
+//----------------------------------------------------------------//
+//GERAL RULES
+
+//Gravity
+const gravity = 0.5
+
+//Keys
 const keys = {
     d: {
         pressed: false,
@@ -102,16 +153,6 @@ const keys = {
     }
 }
 
-const background = new Sprite({
-    position: {
-        x: 0,
-        y: 0,
-    },
-    imageSrc: './img/BackgroundTest/HomeBC.png'
-})
-
-const backgroundImageHeight = 576
-
 const camera = {
     position: {
         x: 0,
@@ -119,88 +160,47 @@ const camera = {
     }
 }
 
-//Loop de animação 
+//----------------------------------------------------------------//
+//ANIMATION
 
+//Animation Loop 
 function animate(){
-    window.requestAnimationFrame(animate);
-    c.fillStyle ='white'
-    c.fillRect(0, 0, canvas.width, canvas.height)
 
+    //???
+    window.requestAnimationFrame(animate);
     c.save()
     c.translate(camera.position.x, camera.position.y ) 
     
-    background.update()
+    backgroundHouseStart.update()
+    
     collisionBlocks.forEach((collisionBlock) => {
         collisionBlock.update()
     })
-    
-    
 
-    player.update()
+    //animate door
+     doors.forEach((door) => {
+    door.update(); // Animate door sprites
+  });
 
-    player.velocity.x = 0
+    player.update();
 
-
-
-    //Right
-    if (keys.d.pressed) {
-        player.switchSprite('RunRight')
-        player.velocity.x = 5
-        player.lastDirection = 'right'
-        player.shouldPanCameraToTheLeft({canvas, camera})
-    }
-
-    //Left
-    else if (keys.a.pressed) {
-        player.switchSprite('Run')
-        player.velocity.x = -5;
-        player.lastDirection = 'left'
-        player.shouldPanCameraToTheRight({canvas, camera})
-    }
-
-    //Stoped
-    else if (player.velocity.y === 0) {
-
-        if (player.lastDirection === 'left') player.switchSprite('Stoped')
-        else player.switchSprite('StopedRight')
-    }
-
-
-    //Jump
-    //Move the camera
-    if (player.velocity.y < 0) player.shouldPanCameraDown({canvas, camera})
-    else if (player.velocity.y > 0) player.shouldPanCameraUp({canvas, camera})
-
-    //Move the player
-    if ((player.velocity.y < 0 || player.velocity.y > 0) && player.velocity.x < 0 )
-        player.switchSprite('Jump') 
-    
-
-    else if ((player.velocity.y < 0 || player.velocity.y > 0) && player.velocity.x > 0 ) player.switchSprite('JumpRight')
-
-
-    //Boost (BUGADO)
-    // if (keys.v.pressed) {
-    //     player.animations.Run.frameBuffer = 1;
-    //     player.animations.RunRight.frameBuffer = 1
-    //     if (keys.d.pressed) player.velocity.x = 8;
-    //     else if (keys.a.pressed) player.velocity.x = -8;
-    // }
-    // else if (player.animations.Run.frameBuffer = 2, player.animations.RunRight.frameBuffer = 2)
-
+    player.handleInput(keys)
 
     c.restore()
 
     player.checkForHorizontalCanvasCollision()
-    
+        
 }
 
 animate()
 
-//movimentação
+//When Key is pressed
 window.addEventListener('keydown', (event) => {
+
+    if (player.preventInput) return
     if (event.repeat) return;
     switch(event.key){
+
         case 'd':
             keys.d.pressed = true;
         break
@@ -210,12 +210,43 @@ window.addEventListener('keydown', (event) => {
         break
 
         case 'w':
+            for (let i = 0; i < doors.length; i++) {
+                const door = doors[i]
+                    
+                if (
+                    player.hitbox.position.x <=
+                    door.position.x + door.width &&
+                player.hitbox.position.x + player.hitbox.width >=
+                    door.position.x &&
+                player.hitbox.position.y + player.hitbox.height >=
+                    door.position.y &&
+                player.hitbox.position.y <=
+                    door.position.y + door.height
+                ){
+                    player.preventInput = true
+                    player.velocity.x = 0
+                    player.velocity.y = 0
+                    player.switchSprite('EnterDoor')
+                    door.play()
+                    return
+                }
+            }
+
+           
+            
+                
+
+                
+
+            if (player.velocity.y === 0)
                 player.velocity.y = -10
+            
         break
 
         case 'v':
             keys.v.pressed = true
         break
+
 
        
     }
