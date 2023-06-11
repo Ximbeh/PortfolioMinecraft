@@ -1,6 +1,13 @@
 
 class Sprite{
-    constructor ({position, imageSrc, frameRate = 1, frameBuffer = 0, loop = true, autoplay = true }){
+    constructor ({
+        position, 
+        imageSrc, 
+        frameRate = 1, 
+        frameBuffer = 0,
+        loop = true, 
+        autoplay = true 
+    }){
         this.position = position
         this.loaded = false
         this.image = new Image()
@@ -16,6 +23,7 @@ class Sprite{
         this.elapsedFrames = 0
         this.loop = loop
         this.autoplay = autoplay
+        this.currentAnimation
     }
 
     draw(){
@@ -66,6 +74,13 @@ class Sprite{
             if (this.currentFrame < this.frameRate - 1)
             this.currentFrame++
             else if (this.loop) this.currentFrame = 0
+        }
+
+        if (this.currentAnimation?.onComplete){
+            if (this.currentFrame === this.frameRate -1 && !this.currentAnimation.isActive){
+                this.currentAnimation.onComplete()
+                this.currentAnimation.isActive = true
+            }
         }
     }
 }
