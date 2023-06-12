@@ -5,14 +5,6 @@ const c = canvas.getContext("2d");
 canvas.width = 1024;
 canvas.height = 576;
 
-//Levels
-let level = 1;
-let leves = {
-  1: {
-    init: () => {},
-  },
-};
-
 const scaledCanvas = {
   width: canvas.width,
   height: canvas.height,
@@ -94,15 +86,21 @@ const player = new Player({
       loop: true,
     },
     EnterDoor: {
-      imageSrc: "./img/Steve/Run.png",
-      frameRate: 34,
-      frameBuffer: 2,
+      imageSrc: "./img/Steve/enterDoor.png",
+      frameRate: 18,
+      frameBuffer: 3,
       loop: false,
       onComplete: () => {
         console.log("completo");
 
         gsap.to(overlay, {
           opacity: 1,
+          onComplete: () => {
+            window.location.href = '../Village/index.html';
+            gsap.to(overlay, {
+                opacity: 0,
+            })
+          }
         });
       },
     },
@@ -116,7 +114,7 @@ const doors = [
       x: 836,
       y: 320,
     },
-    imageSrc: "./img/Door.png",
+    imageSrc: "./img//Objects/Door/Door.png",
     frameRate: 4,
     frameBuffer: 6,
     loop: false,
@@ -130,7 +128,7 @@ const backgroundHouseStart = new Sprite({
     x: 0,
     y: 0,
   },
-  imageSrc: "./img/BackgroundTest/HomeBC.png",
+  imageSrc: "./img/Background/HomeBC.png",
 });
 
 const backgroundImageHeight = 576;
