@@ -1,0 +1,114 @@
+@font-face {
+    font-family: 'Mine';
+    src: url(./img/Minecraft.ttf)
+}
+
+body {
+    background-color: black;
+    display: flex;
+
+}
+
+.canvas {
+    background-color: aliceblue;
+    width: 1024px;
+    height: 576px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-image: url(./img/Background1.gif);
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+
+
+}
+
+.botoes_1{
+    gap: 5px;
+    display: grid;
+    margin-bottom: 3rem;
+    margin-top: 16rem;
+}
+
+.grande{
+    background-image: url(./img/BigRet.png);
+    background-size: contain;
+    height: 45px;
+    width: 450px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    
+}
+
+.grande:hover{
+    background-image: url(./img/BigRetClick.png);
+}
+
+.button {
+    font-size: 17px;
+    letter-spacing: 2px;
+    text-shadow:  0.1em 0.1em #333;
+    font-family: 'Mine';    
+    text-decoration: none;
+    color:white;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+
+}
+
+.botoes_2{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-items: center;
+    gap: 47px;
+}
+
+.pequeno{
+    background-image: url(./img/SmallRet.png);
+    background-size: contain;
+    height: 42px;
+    width: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pequeno :hover{
+    background-image: url(./img/SmallRetClick.png);
+    
+}
+
+
+a:hover{
+    color:white
+}
+
+a:visited{
+    text-decoration: none;
+    color:white
+}
+
+footer{
+    font-size: 17px;
+    letter-spacing: 2px;
+    text-shadow:  0.1em 0.1em #333;
+    font-family: 'Mine';    
+    color: aliceblue;
+    display: flex;
+    width: 98%;
+    height: 100%;
+    justify-content: space-between;
+    align-items: end;
+}
