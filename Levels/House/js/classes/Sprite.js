@@ -6,7 +6,8 @@ class Sprite{
         frameRate = 1, 
         frameBuffer = 0,
         loop = true, 
-        autoplay = true 
+        autoplay = true,
+        opacity = 100,
     }){
         this.position = position
         this.loaded = false
@@ -23,6 +24,7 @@ class Sprite{
         this.elapsedFrames = 0
         this.loop = loop
         this.autoplay = autoplay
+        this.opacity = opacity
         this.currentAnimation
     }
 
@@ -37,6 +39,9 @@ class Sprite{
             width: this.image.width / this.frameRate,
             height: this.image.height,
           }
+
+          c.save()
+          c.globalAlpha = this.opacity / 100;
         
         // console.log(cropbox.position.x);
         // console.log(cropbox.position.this.currentFrame);

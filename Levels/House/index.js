@@ -114,11 +114,63 @@ const doors = [
       x: 836,
       y: 320,
     },
-    imageSrc: "./img//Objects/Door/Door.png",
+    imageSrc: "./img/Objects/Door/Door.png",
     frameRate: 4,
     frameBuffer: 6,
     loop: false,
     autoplay: false,
+  }),
+];
+
+//Furnace
+const Furnaces = [
+  new Sprite({
+    position: {
+      x: 256,
+      y: 384,
+    },
+    imageSrc: "./img/Objects/Furnace/Furnace.png",
+    frameRate: 8,
+    frameBuffer: 9,
+    loop: true,
+    autoplay: false,
+    opacity: 0,
+  }),
+  new Sprite({
+    position: {
+      x: 319,
+      y: 384,
+    },
+    imageSrc: "./img/Objects/Furnace/Furnace.png",
+    frameRate: 8,
+    frameBuffer: 6,
+    loop: true,
+    autoplay: false,
+    opacity: 0,
+  }),
+  new Sprite({
+    position: {
+      x: 319,
+      y: 320,
+    },
+    imageSrc: "./img/Objects/Furnace/Furnace.png",
+    frameRate: 8,
+    frameBuffer: 8,
+    loop: true,
+    autoplay: false,
+    opacity: 0,
+  }),
+  new Sprite({
+    position: {
+      x: 257,
+      y: 320,
+    },
+    imageSrc: "./img/Objects/Furnace/Furnace.png",
+    frameRate: 8,
+    frameBuffer: 7,
+    loop: true,
+    autoplay: false,
+    opacity: 0,
   }),
 ];
 
@@ -155,6 +207,10 @@ const keys = {
   w: {
     pressed: false,
   },
+
+  Space: {
+    pressed: false,
+  }
 };
 
 const camera = {
@@ -185,9 +241,16 @@ function animate() {
     collisionBlock.update();
   });
 
+
+  //Animate Objects
   //animate door
   doors.forEach((door) => {
     door.update(); // Animate door sprites
+  });
+
+  //animate Furnace
+  Furnaces.forEach((Furnace) => {
+    Furnace.update(); // Animate furnace sprites
   });
   player.update();
 
@@ -206,23 +269,78 @@ function animate() {
 
 animate();
 
+let Furance0Active = false
+let Furance1Active = false
+
 //When Key is pressed
 window.addEventListener("keydown", (event) => {
   if (player.preventInput) return;
   if (event.repeat) return;
   switch (event.key) {
+
     case "d":
       keys.d.pressed = true;
       break;
+      
 
     case "a":
       keys.a.pressed = true;
       break;
 
     case "w":
+      if (player.velocity.y === 0) player.velocity.y = -10;
+
+      break;
+
+    case "v":
+      keys.v.pressed = true;
+      break;
+
+      case " ":
+        const Furnace = Furnaces;
+
+        if (
+          player.hitbox.position.x <= Furnace[0].position.x + Furnace[0].width &&
+          player.hitbox.position.x + player.hitbox.width >= Furnace[0].position.x &&
+          player.hitbox.position.y + player.hitbox.height >= Furnace[0].position.y &&
+          player.hitbox.position.y <= Furnace[0].position.y + Furnace[0].height
+        ) {
+          if (!Furance0Active) {
+            Furnace[0].play();
+            Furnace[0].opacity = 100;
+            Furance0Active = true;
+          } else {
+            Furnace[3].play();
+            Furnace[3].opacity = 100;
+            // Furance0Active = false;
+          }
+          return;
+        } 
+
+
+        if (
+          player.hitbox.position.x <= Furnace[1].position.x + Furnace[1].width &&
+          player.hitbox.position.x + player.hitbox.width >= Furnace[1].position.x &&
+          player.hitbox.position.y + player.hitbox.height >= Furnace[1].position.y &&
+          player.hitbox.position.y <= Furnace[1].position.y + Furnace[1].height
+        ) {
+          if (!Furance1Active) {
+            Furnace[1].play();
+            Furnace[1].opacity = 100;
+            Furance1Active = true;
+          } else {
+            Furnace[2].play();
+            Furnace[2].opacity = 100;
+            // Furance1Active = false;
+          }
+          return;
+        }
+
+        
+  
+
       for (let i = 0; i < doors.length; i++) {
         const door = doors[i];
-
         if (
           player.hitbox.position.x <= door.position.x + door.width &&
           player.hitbox.position.x + player.hitbox.width >= door.position.x &&
@@ -239,14 +357,9 @@ window.addEventListener("keydown", (event) => {
           return;
         }
       }
-
-      if (player.velocity.y === 0) player.velocity.y = -10;
-
       break;
 
-    case "v":
-      keys.v.pressed = true;
-      break;
+    
   }
 
   event.preventDefault();
