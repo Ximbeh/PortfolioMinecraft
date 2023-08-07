@@ -42,7 +42,7 @@ floorCollision2D.forEach((row, y) => {
 //Player
 const player = new Player({
   position: {
-    x: 100,
+    x: 820,
     y: 300,
   },
   collisionBlocks,
@@ -180,7 +180,7 @@ const Tutorial = [
       x: 600,
       y: 320,
     },
-    imageSrc: "./img/NPC/Villager/Villager.png",
+    imageSrc: "./img/NPC/Caire/Caire.png",
     frameRate: 28,
     frameBuffer: 29,
     autoplay: true,
@@ -322,7 +322,7 @@ window.addEventListener("keydown", (event) => {
       keys.v.pressed = true;
       break;
 
-    case " ":
+      case " ":
        
         for (let i = 0; i < Tutorial.length; i++) {
           const Tutorials = Tutorial[i];
