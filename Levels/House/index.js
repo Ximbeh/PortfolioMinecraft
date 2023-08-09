@@ -180,7 +180,7 @@ const Tutorial = [
       x: 600,
       y: 320,
     },
-    imageSrc: "./img/NPC/Villager/Villager.png",
+    imageSrc: "./img/NPC/Caire/caire.png",
     frameRate: 28,
     frameBuffer: 29,
     autoplay: true,

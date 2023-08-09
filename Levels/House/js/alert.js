@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", function() {
   var overlay = document.getElementById("overlay");
   var okButton = document.getElementById("okButton");
 
+
   okButton.addEventListener("click", function() {
     overlay.style.display = "none";
   });
@@ -17,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
   var closeButton = document.getElementById("closeButton");
   var closeButton2 = document.getElementById("closeButton2")
-  var nextButtob = document.getElementById("nextButton")
+  var nextButton = document.getElementById("nextButton")
 
   closeButton.addEventListener("click", function() {
     overlay.style.display = "none";
@@ -27,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function() {
     overlay.style.display = "none";
   });
 
-  nextButtob.addEventListener("click", function(){
+  nextButton.addEventListener("click", function(){
     talk1.style.display = "none";
     talk2.style.display = "flex"
   });
