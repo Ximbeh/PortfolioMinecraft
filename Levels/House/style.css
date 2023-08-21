@@ -63,8 +63,7 @@ div{
       z-index: 9999;
    }
 
-.talk1{
-    background-image:url(./img/Objects/Talks/TalkTest.png);
+   .talk {
     background-size: contain;
     background-repeat: no-repeat;
     width: 1024px;
@@ -72,7 +71,6 @@ div{
     position: absolute;
     display: none;
   }
-
 
 .buttonTalk{
   position: absolute;

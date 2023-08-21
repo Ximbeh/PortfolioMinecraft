@@ -332,17 +332,52 @@ window.addEventListener("keydown", (event) => {
             player.hitbox.position.y + player.hitbox.height >= Tutorials.position.y &&
             player.hitbox.position.y <= Tutorials.position.y + Tutorials.height
           ) {
-              var overlayTalk = document.getElementById("overlayTalk");
-              var talk1 = document.getElementById("talk1");
-
-              overlayTalk.style.display = "flex";
-              overlayTalk.style.zIndex = "99999";
-              overlayTalk.style.display = "flex";
-              talk1.style.display = "flex"
-              
-              console.log("a");
-            return;
+            var overlayTalk = document.getElementById("overlayTalk");
+            var talk = document.getElementById("talk");
+            var closeButton = document.getElementById("closeButton");
+            var nextButton = document.getElementById("nextButton");
+          
+            var images = [
+              "./img/Objects/Talks/TalkTest.png",
+              "./img/Objects/Talks/TalkCaire2.png",
+              "./img/Objects/Talks/TalkCaire3.png",
+              "./img/Objects/Talks/TalkCaire4.png",
+              "./img/Objects/Talks/TalkCaire5.png",
+              "./img/Objects/Talks/TalkCaire6.png"
+            ];
+          
+            var currentImageIndex = 0;
+          
+            // Atualiza a imagem exibida
+            function updateImage(index) {
+              talk.style.backgroundImage = `url('${images[index]}')`;
+            }
+          
+            // Fecha o diálogo
+            function hideTalk() {
+              overlayTalk.style.display = "none";
+              currentImageIndex = 0; // Reinicia o índice para a primeira imagem
+              updateImage(currentImageIndex);
+            }
+          
+            closeButton.addEventListener("click", hideTalk);
+          
+            nextButton.addEventListener("click", function() {
+              if (currentImageIndex < images.length - 1) {
+                currentImageIndex++;
+                updateImage(currentImageIndex);
+              } else {
+                hideTalk();
+              }
+            });
+          
+            // Mostra o diálogo
+            overlayTalk.style.display = "flex";
+            overlayTalk.style.zIndex = "99999";
+            talk.style.display = "flex";
+            updateImage(currentImageIndex);
           }
+          
         }
 
         const Furnace = Furnaces;
