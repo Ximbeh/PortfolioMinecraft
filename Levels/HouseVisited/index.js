@@ -174,6 +174,22 @@ const Furnaces = [
   }),
 ];
 
+//Chest
+const Chests = [
+  new Sprite({
+    position: {
+      x: 256,
+      y: 384,
+    },
+    imageSrc: "./img/Objects/Furnace/Furnace.png",
+    frameRate: 8,
+    frameBuffer: 9,
+    loop: true,
+    autoplay: false,
+    opacity: 0,
+  })
+]
+
 const Tutorial = [
   new Sprite({
     position: {
@@ -273,6 +289,11 @@ function animate() {
     Tutorial.update()
   });
 
+  //Animate Chest
+  Chests.forEach((Chest) => {
+    Chest.update(); // Animate Chest sprites
+  });
+
   player.update();
 
   player.handleInput(keys);
@@ -295,6 +316,8 @@ let FirstFurnaceActive = false
 let SecondFurnaceActive = false
 let Furance0Active = false
 let Furance1Active = false
+
+let ChestOpened = true
 
 //When Key is pressed
 window.addEventListener("keydown", (event) => {
@@ -326,6 +349,8 @@ window.addEventListener("keydown", (event) => {
        
         for (let i = 0; i < Tutorial.length; i++) {
           const Tutorials = Tutorial[i];
+
+          //Interagir com NPC Cairé
           if (
             player.hitbox.position.x <= Tutorials.position.x + Tutorials.width &&
             player.hitbox.position.x + player.hitbox.width >= Tutorials.position.x &&
@@ -380,6 +405,7 @@ window.addEventListener("keydown", (event) => {
           
         }
 
+        //Interagir com as Fornalhas
         const Furnace = Furnaces;
         if (FirstFurnaceActive === true &&
           player.hitbox.position.x <= Furnace[0].position.x + Furnace[0].width &&
@@ -458,7 +484,7 @@ window.addEventListener("keydown", (event) => {
 
         
   
-
+      //Interagir com as Portas
       for (let i = 0; i < doors.length; i++) {
         const door = doors[i];
         if (
@@ -477,6 +503,26 @@ window.addEventListener("keydown", (event) => {
           return;
         }
       }
+
+      const Chest = Chests;
+      if(
+        player.hitbox.position.x <= Chest.position.x + Chest.width &&
+        player.hitbox.position.x + player.hitbox.width >= Chest.position.x &&
+        player.hitbox.position.y + player.hitbox.height >= Chest.position.y &&
+        player.hitbox.position.y <= Chest.position.y + Chest.height
+        ) {
+          if (!ChestOpened) {
+            Chest.play();
+            Chest.opacity = 100;
+            ChestOpened = true;
+            console.log("aa");
+          } else {
+            Chest.play();
+            Chest.opacity = 100;
+            ChestOpened = false;
+            console.log("bb");
+          }
+        }
       break;
 
     
