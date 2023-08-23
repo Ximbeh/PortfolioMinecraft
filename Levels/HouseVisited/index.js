@@ -104,6 +104,12 @@ const player = new Player({
         });
       },
     },
+    Sleep: {
+      imageSrc: "./img/Steve/enterDoor.png",
+      frameRate: 18,
+      frameBuffer: 3,
+      loop: false,
+    }
   },
 });
 
@@ -178,7 +184,7 @@ const Furnaces = [
 const Chests = [
   new Sprite({
     position: {
-      x: 256,
+      x: 448,
       y: 384,
     },
     imageSrc: "./img/Objects/Furnace/Furnace.png",
@@ -187,6 +193,22 @@ const Chests = [
     loop: true,
     autoplay: false,
     opacity: 0,
+  })
+]
+
+//Bed
+const Beds = [
+  new Sprite({
+    position: {
+      x: 2,
+      y: 384,
+    },
+    imageSrc: "./img/Objects/Furnace/Furnace.png",
+    frameRate: 8,
+    frameBuffer: 9,
+    loop: true,
+    autoplay: false,
+    opacity: 100,
   })
 ]
 
@@ -292,6 +314,11 @@ function animate() {
   //Animate Chest
   Chests.forEach((Chest) => {
     Chest.update(); // Animate Chest sprites
+  });
+
+  //Animate Bed
+  Beds.forEach((Bed) => {
+    Bed.update(); // Animate Bed sprites
   });
 
   player.update();
@@ -504,13 +531,14 @@ window.addEventListener("keydown", (event) => {
         }
       }
 
-      const Chest = Chests;
-      if(
+      for (let i = 0; i < Chests.length; i++) {
+      const Chest = Chests[i];
+      if (
         player.hitbox.position.x <= Chest.position.x + Chest.width &&
         player.hitbox.position.x + player.hitbox.width >= Chest.position.x &&
         player.hitbox.position.y + player.hitbox.height >= Chest.position.y &&
         player.hitbox.position.y <= Chest.position.y + Chest.height
-        ) {
+      ) {
           if (!ChestOpened) {
             Chest.play();
             Chest.opacity = 100;
@@ -521,6 +549,23 @@ window.addEventListener("keydown", (event) => {
             Chest.opacity = 100;
             ChestOpened = false;
             console.log("bb");
+          }
+        }
+      }
+
+      for (let i = 0; i < Beds.length; i++) {
+        const Bed = Beds[i];
+        if (
+          player.hitbox.position.x <= Bed.position.x + Bed.width &&
+          player.hitbox.position.x + player.hitbox.width >= Bed.position.x &&
+          player.hitbox.position.y + player.hitbox.height >= Bed.position.y &&
+          player.hitbox.position.y <= Bed.position.y + Bed.height
+        ) {
+            player.preventInput = true;
+            player.velocity.x = 0;
+            player.velocity.y = 0;
+            player.switchSprite("Sleep");
+            Bed.play();
           }
         }
       break;
