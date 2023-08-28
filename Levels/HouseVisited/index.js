@@ -182,17 +182,43 @@ const Furnaces = [
 
 //Chest
 const Chests = [
+  // new Sprite({
+  //   position: {
+  //     x: 448,
+  //     y: 341,
+  //   },
+  //   imageSrc: "./img/Objects/Chest/Chest.png",
+  //   frameRate: 13,
+  //   frameBuffer: 3,
+  //   loop: false,
+  //   autoplay: false,
+  //   opacity: 0,
+  // }),
   new Sprite({
     position: {
       x: 448,
-      y: 384,
+      y: 341,
     },
-    imageSrc: "./img/Objects/Furnace/Furnace.png",
-    frameRate: 8,
-    frameBuffer: 9,
-    loop: true,
+    imageSrc: "./img/Objects/Chest/DualChestOpening.png",
+    frameRate: 14,
+    frameBuffer: 3,
+    loop: false,
+    autoplay: false,
+    opacity: 100,
+    id: 1,
+  }),
+  new Sprite({
+    position: {
+      x: 448,
+      y: 341,
+    },
+    imageSrc: "./img/Objects/Chest/DualChestClosing.png",
+    frameRate: 14,
+    frameBuffer: 3,
+    loop: false,
     autoplay: false,
     opacity: 0,
+    id: 2,
   })
 ]
 
@@ -344,7 +370,8 @@ let SecondFurnaceActive = false
 let Furance0Active = false
 let Furance1Active = false
 
-let ChestOpened = true
+let ChestOpened1 = false;
+let ChestOpened2 = false;
 
 //When Key is pressed
 window.addEventListener("keydown", (event) => {
@@ -539,17 +566,34 @@ window.addEventListener("keydown", (event) => {
         player.hitbox.position.y + player.hitbox.height >= Chest.position.y &&
         player.hitbox.position.y <= Chest.position.y + Chest.height
       ) {
-          if (!ChestOpened) {
-            Chest.play();
-            Chest.opacity = 100;
-            ChestOpened = true;
-            console.log("aa");
-          } else {
-            Chest.play();
-            Chest.opacity = 100;
-            ChestOpened = false;
-            console.log("bb");
+        
+          if (Chest.id === 1) {
+            if (!ChestOpened1) {
+              Chest.opacity = 100; // Baú fica opaco quando aberto
+              ChestOpened1 = true;
+              console.log("Chest 1 aberto");
+              Chest.play();
+            } else {
+              Chest.opacity = 0; // Baú fica transparente quando fechado
+              ChestOpened1 = false;
+              console.log("Chest 1 fechado");
+              Chest.play();
+            }
+          } else if (Chest.id === 2) {
+            if (!ChestOpened2) {
+              Chest.opacity = 0; // Baú fica opaco quando aberto
+              ChestOpened2 = true;
+              console.log("Chest 2 aberto");
+              Chest.play();
+            } else {
+              Chest.opacity = 100; // Baú fica transparente quando fechado
+              ChestOpened2 = false;
+              console.log("Chest 2 fechado");
+              Chest.play();
+            }
           }
+      
+        
         }
       }
 
