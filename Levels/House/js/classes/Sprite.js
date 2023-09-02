@@ -8,6 +8,7 @@ class Sprite{
         loop = true, 
         autoplay = true,
         opacity = 100,
+        id = 0,
     }){
         this.position = position
         this.loaded = false
@@ -26,6 +27,7 @@ class Sprite{
         this.autoplay = autoplay
         this.opacity = opacity
         this.currentAnimation
+        this.id = id
     }
 
     draw(){
@@ -69,6 +71,8 @@ class Sprite{
     play(){
         this.autoplay = true
     }
+
+    
 
     updateFrames(){
         if (!this.autoplay) return 

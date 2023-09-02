@@ -96,12 +96,28 @@ const player = new Player({
         gsap.to(overlay, {
           opacity: 1,
           onComplete: () => {
-            window.location.href = '../Village/index.html';
+            window.location.href = "../Village/index.html";
             gsap.to(overlay, {
-                opacity: 0,
-            })
-          }
+              opacity: 0,
+            });
+          },
         });
+      },
+    },
+    Sleep: {
+      imageSrc: "",
+      onComplete: () => {
+        console.log("completo");
+
+        // gsap.to(overlay, {
+        //   opacity: 1,
+        //   onComplete: () => {
+        //     window.location.href = "../Village/index.html";
+        //     gsap.to(overlay, {
+        //       opacity: 0,
+        //     });
+        //   },
+        // });
       },
     },
   },
@@ -174,6 +190,52 @@ const Furnaces = [
   }),
 ];
 
+//Chest
+const Chests = [
+  new Sprite({
+    position: {
+      x: 448,
+      y: 341,
+    },
+    imageSrc: "./img/Objects/Chest/DualChestOpening.png",
+    frameRate: 14,
+    frameBuffer: 3,
+    loop: false,
+    autoplay: false,
+    opacity: 100,
+    id: 1,
+  }),
+  new Sprite({
+    position: {
+      x: 448,
+      y: 341,
+    },
+    imageSrc: "./img/Objects/Chest/DualChestClosing.png",
+    frameRate: 14,
+    frameBuffer: 3,
+    loop: false,
+    autoplay: false,
+    opacity: 0,
+    id: 2,
+  }),
+];
+
+//Bed
+const Beds = [
+  new Sprite({
+    position: {
+      x: 2,
+      y: 380,
+    },
+    imageSrc: "./img/Objects/Bed/Bed.png",
+    frameRate: 2,
+    frameBuffer: 1,
+    loop: false,
+    autoplay: false,
+    opacity: 100,
+  }),
+];
+
 const Tutorial = [
   new Sprite({
     position: {
@@ -185,9 +247,8 @@ const Tutorial = [
     frameBuffer: 29,
     autoplay: true,
     opacity: 100,
-    
-  })
-]
+  }),
+];
 
 //Background
 const backgroundHouseStart = new Sprite({
@@ -225,7 +286,7 @@ const keys = {
 
   Space: {
     pressed: false,
-  }
+  },
 };
 
 const camera = {
@@ -256,7 +317,6 @@ function animate() {
     collisionBlock.update();
   });
 
-
   //Animate Objects
   //animate door
   doors.forEach((door) => {
@@ -269,8 +329,18 @@ function animate() {
   });
 
   //Animate Tutorials
-  Tutorial.forEach((Tutorial) =>{
-    Tutorial.update()
+  Tutorial.forEach((Tutorial) => {
+    Tutorial.update();
+  });
+
+  //Animate Chest
+  Chests.forEach((Chest) => {
+    Chest.update(); // Animate Chest sprites
+  });
+
+  //Animate Bed
+  Beds.forEach((Bed) => {
+    Bed.update(); // Animate Bed sprites
   });
 
   player.update();
@@ -290,24 +360,23 @@ function animate() {
 
 animate();
 
+let FirstFurnaceActive = false;
+let SecondFurnaceActive = false;
+let Furance0Active = false;
+let Furance1Active = false;
 
-let FirstFurnaceActive = false
-let SecondFurnaceActive = false
-let Furance0Active = false
-let Furance1Active = false
+let ChestOpened1 = false;
+let ChestOpened2 = false;
 
 //When Key is pressed
 window.addEventListener("keydown", (event) => {
   if (player.preventInput) return;
   if (event.repeat) return;
-  
 
   switch (event.key) {
-
     case "d":
       keys.d.pressed = true;
       break;
-      
 
     case "a":
       keys.a.pressed = true;
@@ -323,142 +392,152 @@ window.addEventListener("keydown", (event) => {
       break;
 
     case " ":
-       
-        for (let i = 0; i < Tutorial.length; i++) {
-          const Tutorials = Tutorial[i];
-          if (
-            player.hitbox.position.x <= Tutorials.position.x + Tutorials.width &&
-            player.hitbox.position.x + player.hitbox.width >= Tutorials.position.x &&
-            player.hitbox.position.y + player.hitbox.height >= Tutorials.position.y &&
-            player.hitbox.position.y <= Tutorials.position.y + Tutorials.height
-          ) {
-            var overlayTalk = document.getElementById("overlayTalk");
-            var talk = document.getElementById("talk");
-            var closeButton = document.getElementById("closeButton");
-            var nextButton = document.getElementById("nextButton");
-          
-            var images = [
-              "./img/Objects/Talks/TalkTest.png",
-              "./img/Objects/Talks/TalkCaire2.png",
-              "./img/Objects/Talks/TalkCaire3.png",
-              "./img/Objects/Talks/TalkCaire4.png",
-              "./img/Objects/Talks/TalkCaire5.png",
-              "./img/Objects/Talks/TalkCaire6.png"
-            ];
-          
-            var currentImageIndex = 0;
-          
-            // Atualiza a imagem exibida
-            function updateImage(index) {
-              talk.style.backgroundImage = `url('${images[index]}')`;
-            }
-          
-            // Fecha o diálogo
-            function hideTalk() {
-              overlayTalk.style.display = "none";
-              currentImageIndex = 0; // Reinicia o índice para a primeira imagem
-              updateImage(currentImageIndex);
-            }
-          
-            closeButton.addEventListener("click", hideTalk);
-          
-            nextButton.addEventListener("click", function() {
-              if (currentImageIndex < images.length - 1) {
-                currentImageIndex++;
-                updateImage(currentImageIndex);
-              } else {
-                hideTalk();
-              }
-            });
-          
-            // Mostra o diálogo
-            overlayTalk.style.display = "flex";
-            overlayTalk.style.zIndex = "99999";
-            talk.style.display = "flex";
+      for (let i = 0; i < Tutorial.length; i++) {
+        const Tutorials = Tutorial[i];
+
+        //Interagir com NPC Cairé
+        if (
+          player.hitbox.position.x <= Tutorials.position.x + Tutorials.width &&
+          player.hitbox.position.x + player.hitbox.width >=
+            Tutorials.position.x &&
+          player.hitbox.position.y + player.hitbox.height >=
+            Tutorials.position.y &&
+          player.hitbox.position.y <= Tutorials.position.y + Tutorials.height
+        ) {
+          var overlayTalk = document.getElementById("overlayTalk");
+          var talk = document.getElementById("talk");
+          var closeButton = document.getElementById("closeButton");
+          var nextButton = document.getElementById("nextButton");
+
+          var images = [
+            "./img/Objects/Talks/TalkTest.png",
+            "./img/Objects/Talks/TalkCaire2.png",
+            "./img/Objects/Talks/TalkCaire3.png",
+            "./img/Objects/Talks/TalkCaire4.png",
+            "./img/Objects/Talks/TalkCaire5.png",
+            "./img/Objects/Talks/TalkCaire6.png",
+          ];
+
+          var currentImageIndex = 0;
+
+          // Atualiza a imagem exibida
+          function updateImage(index) {
+            talk.style.backgroundImage = `url('${images[index]}')`;
+          }
+
+          // Fecha o diálogo
+          function hideTalk() {
+            overlayTalk.style.display = "none";
+            currentImageIndex = 0; // Reinicia o índice para a primeira imagem
             updateImage(currentImageIndex);
           }
-          
+
+          closeButton.addEventListener("click", hideTalk);
+
+          nextButton.addEventListener("click", function () {
+            if (currentImageIndex < images.length - 1) {
+              currentImageIndex++;
+              updateImage(currentImageIndex);
+            } else {
+              hideTalk();
+            }
+          });
+
+          // Mostra o diálogo
+          overlayTalk.style.display = "flex";
+          overlayTalk.style.zIndex = "99999";
+          talk.style.display = "flex";
+          updateImage(currentImageIndex);
         }
+      }
 
-        const Furnace = Furnaces;
-        if (FirstFurnaceActive === true &&
-          player.hitbox.position.x <= Furnace[0].position.x + Furnace[0].width &&
-          player.hitbox.position.x + player.hitbox.width >= Furnace[0].position.x &&
-          player.hitbox.position.y + player.hitbox.height >= Furnace[0].position.y &&
-          player.hitbox.position.y <= Furnace[0].position.y + Furnace[0].height
-          ){
-            if (Furance0Active === false) {
-              Furnace[0].play();
-              Furnace[0].opacity = 0;
-              Furance0Active = true;
-              FirstFurnaceActive = true
-            } else {
-              Furnace[3].play();
-              Furnace[3].opacity = 0;
-              FirstFurnaceActive = false
-              Furance0Active = false;
-            }
-            return;
-        } else if (
-          player.hitbox.position.x <= Furnace[0].position.x + Furnace[0].width &&
-          player.hitbox.position.x + player.hitbox.width >= Furnace[0].position.x &&
-          player.hitbox.position.y + player.hitbox.height >= Furnace[0].position.y &&
-          player.hitbox.position.y <= Furnace[0].position.y + Furnace[0].height
-        ) {
-          if (!Furance0Active) {
-            Furnace[0].play();
-            Furnace[0].opacity = 100;
-            Furance0Active = true;
-          } else {
-            Furnace[3].play();
-            Furnace[3].opacity = 100;
-            FirstFurnaceActive = true
-            Furance0Active = false;
-          }
-          return;
-        } 
+      //Interagir com as Fornalhas
+      const Furnace = Furnaces;
+      if (
+        FirstFurnaceActive === true &&
+        player.hitbox.position.x <= Furnace[0].position.x + Furnace[0].width &&
+        player.hitbox.position.x + player.hitbox.width >=
+          Furnace[0].position.x &&
+        player.hitbox.position.y + player.hitbox.height >=
+          Furnace[0].position.y &&
+        player.hitbox.position.y <= Furnace[0].position.y + Furnace[0].height
+      ) {
+        if (Furance0Active === false) {
+          Furnace[0].play();
+          Furnace[0].opacity = 0;
+          Furance0Active = true;
+          FirstFurnaceActive = true;
+        } else {
+          Furnace[3].play();
+          Furnace[3].opacity = 0;
+          FirstFurnaceActive = false;
+          Furance0Active = false;
+        }
+        return;
+      } else if (
+        player.hitbox.position.x <= Furnace[0].position.x + Furnace[0].width &&
+        player.hitbox.position.x + player.hitbox.width >=
+          Furnace[0].position.x &&
+        player.hitbox.position.y + player.hitbox.height >=
+          Furnace[0].position.y &&
+        player.hitbox.position.y <= Furnace[0].position.y + Furnace[0].height
+      ) {
+        if (!Furance0Active) {
+          Furnace[0].play();
+          Furnace[0].opacity = 100;
+          Furance0Active = true;
+        } else {
+          Furnace[3].play();
+          Furnace[3].opacity = 100;
+          FirstFurnaceActive = true;
+          Furance0Active = false;
+        }
+        return;
+      }
 
+      if (
+        SecondFurnaceActive === true &&
+        player.hitbox.position.x <= Furnace[1].position.x + Furnace[1].width &&
+        player.hitbox.position.x + player.hitbox.width >=
+          Furnace[1].position.x &&
+        player.hitbox.position.y + player.hitbox.height >=
+          Furnace[1].position.y &&
+        player.hitbox.position.y <= Furnace[1].position.y + Furnace[1].height
+      ) {
+        if (Furance1Active === false) {
+          Furnace[1].play();
+          Furnace[1].opacity = 0;
+          Furance1Active = true;
+          SecondFurnaceActive = true;
+        } else {
+          Furnace[2].play();
+          Furnace[2].opacity = 0;
+          SecondFurnaceActive = false;
+          Furance1Active = false;
+        }
+        return;
+      } else if (
+        player.hitbox.position.x <= Furnace[1].position.x + Furnace[1].width &&
+        player.hitbox.position.x + player.hitbox.width >=
+          Furnace[1].position.x &&
+        player.hitbox.position.y + player.hitbox.height >=
+          Furnace[1].position.y &&
+        player.hitbox.position.y <= Furnace[1].position.y + Furnace[1].height
+      ) {
+        if (!Furance1Active) {
+          Furnace[1].play();
+          Furnace[1].opacity = 100;
+          Furance1Active = true;
+        } else {
+          Furnace[2].play();
+          Furnace[2].opacity = 100;
+          SecondFurnaceActive = true;
+          Furance1Active = false;
+        }
+        return;
+      }
 
-        if (SecondFurnaceActive === true &&
-          player.hitbox.position.x <= Furnace[1].position.x + Furnace[1].width &&
-          player.hitbox.position.x + player.hitbox.width >= Furnace[1].position.x &&
-          player.hitbox.position.y + player.hitbox.height >= Furnace[1].position.y &&
-          player.hitbox.position.y <= Furnace[1].position.y + Furnace[1].height
-          ){
-            if (Furance1Active === false) {
-              Furnace[1].play();
-              Furnace[1].opacity = 0;
-              Furance1Active = true;
-              SecondFurnaceActive = true
-            } else {
-              Furnace[2].play();
-              Furnace[2].opacity = 0;
-              SecondFurnaceActive = false
-              Furance1Active = false;
-            }
-            return;
-        } else if (
-          player.hitbox.position.x <= Furnace[1].position.x + Furnace[1].width &&
-          player.hitbox.position.x + player.hitbox.width >= Furnace[1].position.x &&
-          player.hitbox.position.y + player.hitbox.height >= Furnace[1].position.y &&
-          player.hitbox.position.y <= Furnace[1].position.y + Furnace[1].height
-        ) {
-          if (!Furance1Active) {
-            Furnace[1].play();
-            Furnace[1].opacity = 100;
-            Furance1Active = true;
-          } else {
-            Furnace[2].play();
-            Furnace[2].opacity = 100;
-            SecondFurnaceActive = true
-            Furance1Active = false;
-          }
-          return;
-        } 
-
-        
-  
-
+      //Interagir com as Portas
       for (let i = 0; i < doors.length; i++) {
         const door = doors[i];
         if (
@@ -477,9 +556,60 @@ window.addEventListener("keydown", (event) => {
           return;
         }
       }
-      break;
 
-    
+      for (let i = 0; i < Chests.length; i++) {
+        const Chest = Chests[i];
+        if (
+          player.hitbox.position.x <= Chest.position.x + Chest.width &&
+          player.hitbox.position.x + player.hitbox.width >= Chest.position.x &&
+          player.hitbox.position.y + player.hitbox.height >= Chest.position.y &&
+          player.hitbox.position.y <= Chest.position.y + Chest.height
+        ) {
+          if (Chest.id === 1) {
+            if (!ChestOpened1) {
+              Chest.opacity = 100; // Baú fica opaco quando aberto
+              ChestOpened1 = true;
+              console.log("Chest 1 aberto");
+              Chest.play();
+            } else {
+              Chest.opacity = 0; // Baú fica transparente quando fechado
+              ChestOpened1 = false;
+              console.log("Chest 1 fechado");
+              Chest.play();
+            }
+          } else if (Chest.id === 2) {
+            if (!ChestOpened2) {
+              Chest.opacity = 0; // Baú fica opaco quando aberto
+              ChestOpened2 = true;
+              console.log("Chest 2 aberto");
+              Chest.play();
+            } else {
+              Chest.opacity = 100; // Baú fica transparente quando fechado
+              ChestOpened2 = false;
+              console.log("Chest 2 fechado");
+              Chest.play();
+            }
+          }
+        }
+      }
+
+      for (let i = 0; i < Beds.length; i++) {
+        const Bed = Beds[i];
+        if (
+          player.hitbox.position.x <= Bed.position.x + Bed.width &&
+          player.hitbox.position.x + player.hitbox.width >= Bed.position.x &&
+          player.hitbox.position.y + player.hitbox.height >= Bed.position.y &&
+          player.hitbox.position.y <= Bed.position.y + Bed.height
+        ) {
+          player.preventInput = true;
+          player.velocity.x = 0;
+          player.velocity.y = 0;
+          player.opacity = 0;
+          player.switchSprite("Sleep");
+          Bed.play();
+        }
+      }
+      break;
   }
 
   event.preventDefault();
