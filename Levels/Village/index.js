@@ -5,6 +5,9 @@ const c = canvas.getContext("2d");
 canvas.width = 1024;
 canvas.height = 576;
 
+
+// 3072
+// 895
 const scaledCanvas = {
   width: canvas.width,
   height: canvas.height,
@@ -127,7 +130,7 @@ const doors = [
 const backgroundHouseStart = new Sprite({
   position: {
     x: 0,
-    y: 0,
+    y: -320,
   },
   imageSrc: "./img/Background/BackgroundVillage.png",
 });
