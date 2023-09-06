@@ -17,15 +17,14 @@ const scaledCanvas = {
 
 //Array of the collision in a new ARRAY
 const floorCollision2D = [];
-for (let i = 0; i < CollisionHouseStart.length; i += 32) {
-  floorCollision2D.push(CollisionHouseStart.slice(i, i + 64));
+for (let i = 0; i < CollisionVillage.length; i += 96) {
+  floorCollision2D.push(CollisionVillage.slice(i, i + 96));
 }
 
 const collisionBlocks = [];
-
 floorCollision2D.forEach((row, y) => {
   row.forEach((symbol, x) => {
-    if (symbol != 0) {
+    if (symbol !=0) {
       // console.log('aaa');
       collisionBlocks.push(
         new CollisionBlock({
@@ -38,6 +37,7 @@ floorCollision2D.forEach((row, y) => {
     }
   });
 });
+
 
 //----------------------------------------------------------------//
 //NEW ITENS
@@ -185,7 +185,9 @@ function animate() {
   //???
   window.requestAnimationFrame(animate);
   c.save();
-  c.translate(camera.position.x, camera.position.y);
+  c.translate(camera.position.x, -backgroundImageHeight + scaledCanvas.height);
+  // c.translate(camera.position.x, camera.position.y);
+  
 
   backgroundHouseStart.update();
 

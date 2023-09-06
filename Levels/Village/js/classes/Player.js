@@ -32,6 +32,7 @@ class Player extends Sprite {
     }
   
     //KEYS ANIMATION
+    
     handleInput(keys) {
       this.velocity.x = 0;
       //Right
@@ -51,6 +52,7 @@ class Player extends Sprite {
       }
   
       //Stoped
+      
       else if (this.velocity.y === 0 && !this.enteringDoor) {
         if (this.lastDirection === "left") this.switchSprite("Stoped");
         else this.switchSprite("StopedRight");
@@ -90,33 +92,7 @@ class Player extends Sprite {
       this.loop = this.animations[key].loop;
       this.currentAnimation = this.animations[key];
     }
-  
-    update() {
-      this.updateFrames();
-      this.updateHitbox();
-      this.updateCamerabox();
-  
-      //hitbox do background
-      // c.fillStyle = 'rgba(0,255,0, 0.5)'
-      // c.fillRect(this. camerabox.position.x, this.camerabox.position.y, this.camerabox.width, this.camerabox.height)
-  
-      //hitbox da imagem
-      // c.fillStyle = 'rgba(0,0,255, 0.5)'
-      // c.fillRect(this.position.x, this.position.y, this.width, this.height)
-  
-      // c.fillStyle = 'rgba(255,0,0, 0.5)'
-      // c.fillRect(this.hitbox.position.x, this.hitbox.position.y, this.hitbox.width, this.hitbox.height)
-  
-      this.draw();
-  
-      this.position.x += this.velocity.x;
-      this.updateHitbox();
-      this.checkForHorizontalCollisions();
-      this.apllyGravity();
-      this.updateHitbox();
-      this.checkForVerticalCollisions();
-    }
-  
+    
     updateHitbox() {
       this.hitbox = {
         position: {
@@ -131,13 +107,40 @@ class Player extends Sprite {
     updateCamerabox() {
       this.camerabox = {
         position: {
-          x: this.position.x - 250,
-          y: this.position.y,
+          x: this.position.x-200,
+          y: this.position.y-100,
         },
-        width: 600,
-        height: 263,
+        width: 500,
+        height: 300,
       };
     }
+
+    update() {
+      this.updateFrames();
+      this.updateHitbox();
+      this.updateCamerabox();
+  
+      //hitbox do background
+      c.fillStyle = 'rgba(0,255,0, 0.5)'
+      c.fillRect(this. camerabox.position.x, this.camerabox.position.y, this.camerabox.width, this.camerabox.height)
+  
+      //hitbox da imagem
+      // c.fillStyle = 'rgba(0,0,255, 0.5)'
+      // c.fillRect(this.position.x, this.position.y, this.width, this.height)
+      
+      // c.fillStyle = 'rgba(255,0,0, 0.5)'
+      // c.fillRect(this.hitbox.position.x, this.hitbox.position.y, this.hitbox.width, this.hitbox.height)
+  
+      this.draw();
+  
+      this.position.x += this.velocity.x;
+      this.updateHitbox();
+      this.checkForHorizontalCollisions();
+      this.apllyGravity();
+      this.updateHitbox();
+      this.checkForVerticalCollisions();
+    }
+  
   
     checkForHorizontalCanvasCollision() {
       if (
@@ -153,12 +156,13 @@ class Player extends Sprite {
     shouldPanCameraToTheLeft({ canvas, camera }) {
       const cameraboxRightSide = this.camerabox.position.x + this.camerabox.width;
   
+      
+      if (cameraboxRightSide >= canvas.width + Math.abs(camera.position.x)){
+        camera.position.x -= this.velocity.x
+      }
+
       if (cameraboxRightSide >= 1024) return;
       // if(cameraboxRightSide >= canvas.width) return
-  
-      if (cameraboxRightSide >= canvas.width + Math.abs(camera.position.x)) {
-        camera.position.x -= this.velocity.x;
-      }
     }
   
     shouldPanCameraToTheRight({ canvas, camera }) {
@@ -204,7 +208,7 @@ class Player extends Sprite {
         ) {
           if (this.velocity.x > 0) {
             this.velocity.x = 0;
-  
+   
             const offset =
               this.hitbox.position.x - this.position.x + this.hitbox.width;
   

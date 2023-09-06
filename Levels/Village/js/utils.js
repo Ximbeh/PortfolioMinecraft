@@ -10,8 +10,8 @@ function collision({ object1, object2 }) {
   
   Array.prototype.parse2D = function () {
     const rows = [];
-    for (let i = 0; i < this.length; i += 32) {
-      rows.push(this.slice(i, i + 32));
+    for (let i = 0; i < this.length; i += 96) {
+      rows.push(this.slice(i, i + 96));
     }
   
     return rows;
