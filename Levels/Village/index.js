@@ -170,7 +170,7 @@ const camera = {
     x: 0,
     y: -backgroundImageHeight + scaledCanvas.height,
   },
-};
+} 
 
 //----------------------------------------------------------------//
 //ANIMATION
@@ -184,6 +184,9 @@ const overlay = {
 function animate() {
   //???
   window.requestAnimationFrame(animate);
+  c.fillStyle = 'white'
+  c.fillRect(0, 0, canvas.width, canvas.height)
+
   c.save();
   c.translate(camera.position.x, -backgroundImageHeight + scaledCanvas.height);
   // c.translate(camera.position.x, camera.position.y);
@@ -202,13 +205,60 @@ function animate() {
     door.update(); // Animate door sprites
   });
 
-
+  
+  // player.checkForHorizontalCanvasCollision();
   player.update();
 
-  player.handleInput(keys);
+    player.velocity.x = 0;
+    //Right
+    if (keys.d.pressed && player.enteringDoor === false) {
+      player.switchSprite("RunRight");
+      player.velocity.x = 5; 
+      player.lastDirection = "right";
+      player.shouldPanCameraToTheLeft();
+    }
+
+    //Left
+    else if (keys.a.pressed && player.enteringDoor === false) {
+      player.switchSprite("Run");
+      player.velocity.x = -5;
+      player.lastDirection = "left";
+      // player.shouldPanCameraToTheRight({ canvas, camera });
+    }
+
+    //Stoped
+    
+    else if (player.velocity.y === 0 && !player.enteringDoor) {
+      if (player.lastDirection === "left") player.switchSprite("Stoped");
+      else player.switchSprite("StopedRight");
+    }
+
+    //Jump
+    //Move the camera
+    // if (player.velocity.y < 0) player.shouldPanCameraDown({ canvas, camera });
+    // else if (player.velocity.y > 0) player.shouldPanCameraUp({ canvas, camera });
+
+    //Move the player
+    if ((player.velocity.y < 0 || player.velocity.y > 0) && player.velocity.x < 0)
+      player.switchSprite("Jump");
+    else if (
+      (player.velocity.y < 0 || player.velocity.y > 0) &&
+      player.velocity.x > 0
+    )
+      player.switchSprite("JumpRight");
+
+    //Boost (BUG)
+    // if (keys.v.pressed) {
+    //     player.animations.Run.frameBuffer = 1;
+    //     player.animations.RunRight.frameBuffer = 1
+    //     if (keys.d.pressed) player.velocity.x = 8;
+    //     else if (keys.a.pressed) player.velocity.x = -8;
+    // }
+    // else if (player.animations.Run.frameBuffer = 2, player.animations.RunRight.frameBuffer = 2)
+
+
   c.restore();
 
-  player.checkForHorizontalCanvasCollision();
 
   //Black Transition Next Level animation
   c.save();
@@ -219,12 +269,6 @@ function animate() {
 }
 
 animate();
-
-
-let FirstFurnaceActive = false
-let SecondFurnaceActive = false
-let Furance0Active = false
-let Furance1Active = false
 
 //When Key is pressed
 window.addEventListener("keydown", (event) => {
