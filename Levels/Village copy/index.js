@@ -1,21 +1,28 @@
-const canvas = document.querySelector('canvas')
-const c = canvas.getContext('2d')
+const canvas = document.querySelector("canvas");
+const c = canvas.getContext("2d");
 
-canvas.width = 1024
-canvas.height = 576
+//Canva Size
+canvas.width = 1024;
+canvas.height = 576;
 
+
+// 3072
+// 895
 const scaledCanvas = {
   width: canvas.width,
-  height: canvas.height
-}
+  height: canvas.height,
+};
 
-const floorCollisions2D = []
-for (let i = 0; i < floorCollisions.length; i += 96) {
-  floorCollisions2D.push(floorCollisions.slice(i, i + 96))
+//----------------------------------------------------------------//
+
+//Array of the collision in a new ARRAY
+const floorCollision2D = [];
+for (let i = 0; i < CollisionVillage.length; i += 96) {
+  floorCollision2D.push(CollisionVillage.slice(i, i + 96));
 }
 
 const collisionBlocks = [];
-floorCollisions2D.forEach((row, y) => {
+floorCollision2D.forEach((row, y) => {
   row.forEach((symbol, x) => {
     if (symbol !=0) {
       // console.log('aaa');
@@ -32,16 +39,16 @@ floorCollisions2D.forEach((row, y) => {
 });
 
 
+//----------------------------------------------------------------//
+//NEW ITENS
 
-const gravity = 0.5
-
+//Player
 const player = new Player({
   position: {
     x: 180,
     y: 320,
   },
   collisionBlocks,
-  imageSrc: './img/warrior/Idle.png',
   imageSrc: "./img/Steve/Respiração.png",
   // mesma coisa que collisionBlocks: collisionBlocks,
   animations: {
@@ -101,7 +108,7 @@ const player = new Player({
       },
     },
   },
-})
+});
 
 //Door
 const doors = [
@@ -118,6 +125,25 @@ const doors = [
   }),
 ];
 
+
+//Background
+const backgroundHouseStart = new Sprite({
+  position: {
+    x: 0,
+    y: -320,
+  },
+  imageSrc: "./img/Background/BackgroundVillage.png",
+});
+
+const backgroundImageHeight = 576;
+
+//----------------------------------------------------------------//
+//GERAL RULES
+
+//Gravity
+const gravity = 0.5;
+
+//Keys
 const keys = {
   d: {
     pressed: false,
@@ -139,60 +165,57 @@ const keys = {
   }
 };
 
-
-const background = new Sprite({
-  position: {
-    x: 0,
-    y: -320,
-  },
-  imageSrc: "./img/Background/BackgroundVillage.png",
-})
-
-const backgroundImageHeight = 576
-
 const camera = {
   position: {
     x: 0,
     y: -backgroundImageHeight + scaledCanvas.height,
   },
-}
+} 
+
+//----------------------------------------------------------------//
+//ANIMATION
 
 //Black Transition Next Level
 const overlay = {
   opacity: 0,
 };
 
+//Animation Loop
 function animate() {
-  window.requestAnimationFrame(animate)
+  //???
+  window.requestAnimationFrame(animate);
   c.fillStyle = 'white'
   c.fillRect(0, 0, canvas.width, canvas.height)
 
-  c.save()
-  c.translate(camera.position.x, camera.position.y)
-  background.update()
-  // collisionBlocks.forEach((collisionBlock) => {
-  //   collisionBlock.update()
-  // })
+  c.save();
+  c.translate(camera.position.x, -backgroundImageHeight + scaledCanvas.height);
+  // c.translate(camera.position.x, camera.position.y);
+  
 
-  // platformCollisionBlocks.forEach((block) => {
-  //   block.update()
-  // })
+  backgroundHouseStart.update();
 
-  player.checkForHorizontalCanvasCollision()
+  collisionBlocks.forEach((collisionBlock) => {
+    collisionBlock.update();
+  });
 
+
+  //Animate Objects
+  //animate door
   doors.forEach((door) => {
     door.update(); // Animate door sprites
   });
 
-  player.update()
+  
+  // player.checkForHorizontalCanvasCollision();
+  player.update();
 
-  player.velocity.x = 0;
+    player.velocity.x = 0;
     //Right
     if (keys.d.pressed && player.enteringDoor === false) {
       player.switchSprite("RunRight");
       player.velocity.x = 5; 
       player.lastDirection = "right";
-      player.shouldPanCameraToTheLeft(canvas, camera);
+      player.shouldPanCameraToTheLeft();
     }
 
     //Left
@@ -200,7 +223,7 @@ function animate() {
       player.switchSprite("Run");
       player.velocity.x = -5;
       player.lastDirection = "left";
-      player.shouldPanCameraToTheRight({ canvas, camera });
+      // player.shouldPanCameraToTheRight({ canvas, camera });
     }
 
     //Stoped
@@ -233,8 +256,11 @@ function animate() {
     // }
     // else if (player.animations.Run.frameBuffer = 2, player.animations.RunRight.frameBuffer = 2)
 
-  c.restore()
 
+  c.restore();
+
+
+  //Black Transition Next Level animation
   c.save();
   c.globalAlpha = overlay.opacity;
   c.fillStyle = "black";
@@ -242,25 +268,31 @@ function animate() {
   c.restore();
 }
 
-animate()
+animate();
 
-window.addEventListener('keydown', (event) => {
+//When Key is pressed
+window.addEventListener("keydown", (event) => {
   if (player.preventInput) return;
   if (event.repeat) return;
+  
 
   switch (event.key) {
-    case 'd':
-      keys.d.pressed = true
-      break
-    case 'a':
-      keys.a.pressed = true
-      break
+
+    case "d":
+      keys.d.pressed = true;
+      break;
+      
+
+    case "a":
+      keys.a.pressed = true;
+      break;
+
     case "w":
       if (player.velocity.y === 0) player.velocity.y = -10;
 
       break;
 
-      case "v":
+    case "v":
       keys.v.pressed = true;
       break;
 
@@ -289,21 +321,25 @@ window.addEventListener('keydown', (event) => {
         }
       }
       break;
+
+    
   }
+
   event.preventDefault();
-})
+});
 
-window.addEventListener('keyup', (event) => {
+window.addEventListener("keyup", (event) => {
   switch (event.key) {
-    case 'd':
-      keys.d.pressed = false
-      break
-    case 'a':
-      keys.a.pressed = false
-      break
+    case "d":
+      keys.d.pressed = false;
+      break;
 
-      case "v":
+    case "a":
+      keys.a.pressed = false;
+      break;
+
+    case "v":
       keys.v.pressed = false;
       break;
   }
-})
+});
