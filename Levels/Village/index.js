@@ -18,7 +18,7 @@ const collisionBlocks = [];
 floorCollisions2D.forEach((row, y) => {
   row.forEach((symbol, x) => {
     if (symbol !=0) {
-      // console.log('aaa');
+      console.log('aaa');
       collisionBlocks.push(
         new CollisionBlock({
           position: {
@@ -170,14 +170,12 @@ function animate() {
   c.save()
   c.translate(camera.position.x, camera.position.y)
   background.update()
-  // collisionBlocks.forEach((collisionBlock) => {
-  //   collisionBlock.update()
-  // })
+  collisionBlocks.forEach((collisionBlock) => {
+    collisionBlock.update()
+    return;
+  })
 
-  // platformCollisionBlocks.forEach((block) => {
-  //   block.update()
-  // })
-
+ 
   player.checkForHorizontalCanvasCollision()
 
   doors.forEach((door) => {
@@ -192,7 +190,7 @@ function animate() {
       player.switchSprite("RunRight");
       player.velocity.x = 5; 
       player.lastDirection = "right";
-      player.shouldPanCameraToTheLeft(canvas, camera);
+      player.shouldPanCameraToTheLeft({canvas, camera});
     }
 
     //Left

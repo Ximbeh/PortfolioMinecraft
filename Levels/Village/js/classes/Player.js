@@ -71,26 +71,32 @@ class Player extends Sprite {
 
   checkForHorizontalCanvasCollision() {
     if (
-      this.hitbox.position.x + this.hitbox.width + this.velocity.x >= 576 ||
+      this.hitbox.position.x + this.hitbox.width + this.velocity.x >= canvas.width ||
       this.hitbox.position.x + this.velocity.x <= 0
     ) {
       this.velocity.x = 0
+      console.log("aaaaaaaa");
     }
   }
 
-  shouldPanCameraToTheLeft({ canvas, camera }) {
+  shouldPanCameraToTheLeft({canvas,camera}) {
     const cameraboxRightSide = this.camerabox.position.x + this.camerabox.width
     const scaledDownCanvasWidth = canvas.width
 
-    if (cameraboxRightSide >= 576) return
-
-    if (
-      cameraboxRightSide >=
-      scaledDownCanvasWidth + Math.abs(camera.position.x)
-    ) {
+    if (cameraboxRightSide >= scaledDownCanvasWidth) {
       camera.position.x -= this.velocity.x
-    }
+       console.log("trans"); 
+      }
+
   }
+
+  //   if (
+  //     cameraboxRightSide >=
+  //     scaledDownCanvasWidth + Math.abs(camera.position.x)
+  //   ) {
+  //     camera.position.x -= this.velocity.x
+  //   }
+  // }
 
   shouldPanCameraToTheRight({ canvas, camera }) {
     if (this.camerabox.position.x <= 0) return
@@ -130,25 +136,25 @@ class Player extends Sprite {
     this.updateHitbox()
 
     this.updateCamerabox()
-    // c.fillStyle = 'rgba(0, 0, 255, 0.2)'
-    // c.fillRect(
-    //   this.camerabox.position.x,
-    //   this.camerabox.position.y,
-    //   this.camerabox.width,
-    //   this.camerabox.height
-    // )
+    c.fillStyle = 'rgba(0, 0, 255, 0.2)'
+    c.fillRect(
+      this.camerabox.position.x,
+      this.camerabox.position.y,
+      this.camerabox.width,
+      this.camerabox.height
+    )
 
     // draws out the image
-    // c.fillStyle = 'rgba(0, 255, 0, 0.2)'
-    // c.fillRect(this.position.x, this.position.y, this.width, this.height)
+    c.fillStyle = 'rgba(0, 255, 0, 0.2)'
+    c.fillRect(this.position.x, this.position.y, this.width, this.height)
 
-    // c.fillStyle = 'rgba(255, 0, 0, 0.2)'
-    // c.fillRect(
-    //   this.hitbox.position.x,
-    //   this.hitbox.position.y,
-    //   this.hitbox.width,
-    //   this.hitbox.height
-    // )
+    c.fillStyle = 'rgba(255, 0, 0, 0.2)'
+    c.fillRect(
+      this.hitbox.position.x,
+      this.hitbox.position.y,
+      this.hitbox.width,
+      this.hitbox.height
+    )
 
     this.draw()
 
