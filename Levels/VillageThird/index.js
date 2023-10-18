@@ -41,24 +41,18 @@ const gravity = 0.5
 
 //----------------------------------------------------------------//
 //NEW ITENS
+
 //Players
-var saiuHouse = sessionStorage.getItem("saiuHouse")
-var entrouHouse = sessionStorage.getItem("entrouHouse")
 var proximaFase = sessionStorage.getItem("proximaFase")
 
 const player = new Player({
-  position: proximaFase ==="doisParaUm"?{
-    x: 940,
-    y: 300,
-  }
-  : saiuHouse ==="true"?
-  {
-    x:180,
-    y:320
+  position: proximaFase==="doisParaTres"?{
+    x: 2,
+    y: 320,
   }
   :
   {
-    x:1,
+    x:200,
     y:320
   },
   //VVV  mesma coisa que collisionBlocks: collisionBlocks VVV
@@ -108,13 +102,11 @@ const player = new Player({
       loop: false,
       onComplete: () => {
         console.log("completo");
-        sessionStorage.setItem("entrouHouse", "true");
-        sessionStorage.setItem("saiuHouse", "false");
-        sessionStorage.setItem("proximaFase", "false")
+
         gsap.to(overlay, {
           opacity: 1,
           onComplete: () => {
-            window.location.href = '../House/index.html';
+            window.location.href = '../HouseVisited/index.html';
             gsap.to(overlay, {
                 opacity: 0,
             })
@@ -129,7 +121,27 @@ const player = new Player({
       loop: false,
       onComplete: () => {
         console.log("proximo nivel");
-        sessionStorage.setItem("proximaFase", "umParaDois")
+        sessionStorage.setItem("proximaFase", "tresParaQuarto")
+        gsap.to(overlay, {
+          opacity: 1,
+          onComplete: () => {
+            window.location.href = '../VillageThird/index.html';
+            gsap.to(overlay, {
+                opacity: 0,
+            })
+          }
+        });
+      },
+    },
+    BackLevel: {
+      imageSrc: "./img/Steve/Run.png",
+      frameRate: 34,
+      frameBuffer: 2,
+      loop: false,
+      onComplete: () => {
+        console.log("voltar nivel");
+        sessionStorage.setItem("proximaFase", "tresParaDois")
+        // player.lastDirection = "left";
         gsap.to(overlay, {
           opacity: 1,
           onComplete: () => {
@@ -157,7 +169,6 @@ const doors = [
     loop: false,
     autoplay: false,
   }),
-  
 ];
 
 //Default keys position (Not pressed)

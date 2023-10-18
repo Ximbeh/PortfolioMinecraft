@@ -40,10 +40,18 @@ floorCollision2D.forEach((row, y) => {
 //NEW ITENS
 
 //Player
+var saiuHouse = sessionStorage.getItem("saiuHouse")
+var entrouHouse = sessionStorage.getItem("entrouHouse")
+
 const player = new Player({
-  position: {
-    x: 100,
-    y: 300,
+  position: entrouHouse==="true"?{
+    x: 820,
+    y: 320,
+  }
+  :
+  {
+    x:100,
+    y:320
   },
   collisionBlocks,
   imageSrc: "./img/Steve/Respiração.png",
@@ -53,7 +61,7 @@ const player = new Player({
       imageSrc: "./img/Steve/Respiração.png",
       frameRate: 28,
       frameBuffer: 24,
-      loop: true,
+      loop: true, 
     },
     StopedRight: {
       imageSrc: "./img/Steve/RespiraçãoRight.png",
@@ -92,6 +100,8 @@ const player = new Player({
       loop: false,
       onComplete: () => {
         console.log("completo");
+        sessionStorage.setItem("saiuHouse", "true");
+        sessionStorage.setItem("entrouHouse", "false");
 
         gsap.to(overlay, {
           opacity: 1,

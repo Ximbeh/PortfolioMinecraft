@@ -92,6 +92,11 @@ class Player extends Sprite {
       }
       else {
         console.log("esquerda");
+        player.preventInput = true;
+          player.velocity.x = 0;
+          player.velocity.y = 0;
+          player.switchSprite("BackLevel");
+          player.nextingLevel = true;
       }
     }
   }
