@@ -44,9 +44,14 @@ const gravity = 0.5
 
 //Players
 var proximaFase = sessionStorage.getItem("proximaFase")
+var saiuHouse = sessionStorage.getItem("saiuHouse")
 
 const player = new Player({
-  position: proximaFase ==="umParaDois"?{
+  position: saiuHouse === "portfolio"?{
+    x:300,
+    y:320
+  }
+  : proximaFase ==="umParaDois"?{
     x:1,
     y:320
   }
@@ -110,7 +115,26 @@ const player = new Player({
         gsap.to(overlay, {
           opacity: 1,
           onComplete: () => {
-            window.location.href = '../HouseVisited/index.html';
+            window.location.href = '../HousePortfolio/index.html';
+            gsap.to(overlay, {
+                opacity: 0,
+            })
+          }
+        });
+      },
+    },
+    EnterDoor2: {
+      imageSrc: "./img/Steve/enterDoor.png",
+      frameRate: 18,
+      frameBuffer: 3,
+      loop: false,
+      onComplete: () => {
+        console.log("completo");
+
+        gsap.to(overlay, {
+          opacity: 1,
+          onComplete: () => {
+            window.location.href = '../House/index.html';
             gsap.to(overlay, {
                 opacity: 0,
             })
@@ -126,6 +150,7 @@ const player = new Player({
       onComplete: () => {
       console.log("proximo nivel");
       sessionStorage.setItem("proximaFase", "doisParaTres")
+      sessionStorage.setItem("saiuHouse", "false")
         gsap.to(overlay, {
           opacity: 1,
           onComplete: () => {
@@ -145,6 +170,7 @@ const player = new Player({
       onComplete: () => {
         console.log("voltar nivel");
         sessionStorage.setItem("proximaFase", "doisParaUm")
+        sessionStorage.setItem("saiuHouse", "false")
         // player.lastDirection = "left";
         gsap.to(overlay, {
           opacity: 1,
@@ -164,8 +190,8 @@ const player = new Player({
 const doors = [
   new Sprite({
     position: {
-      x: 196,
-      y: 320,
+      x: 318,
+      y: 258,
     },
     imageSrc: "./img/Objects/Door/Door.png",
     frameRate: 4,
@@ -173,6 +199,21 @@ const doors = [
     loop: false,
     autoplay: false,
   }),
+];
+
+const doors2 = [
+  new Sprite({
+    position: {
+      x: 836,
+      y: 322,
+    },
+    imageSrc: "./img/Objects/Door/Door.png",
+    frameRate: 4,
+    frameBuffer: 6,
+    loop: false,
+    autoplay: false,
+  }),
+  
 ];
 
 //Default keys position (Not pressed)
@@ -201,7 +242,7 @@ const keys = {
 const background = new Sprite({
   position: {
     x: 0,
-    y: -320,
+    y: 0,
   },
   imageSrc: "./img/Background/BackgroundVillage.png",
 })
@@ -244,6 +285,9 @@ function animate() {
   //animate door
   doors.forEach((door) => {
     door.update(); // Animate door sprites
+  });
+  doors2.forEach((door2) => {
+    door2.update(); // Animate door sprites
   });
 
   player.update()
@@ -345,6 +389,24 @@ window.addEventListener('keydown', (event) => {
           player.switchSprite("EnterDoor");
           player.enteringDoor = true;
           door.play();
+
+          return;
+        }
+      }
+      for (let i = 0; i < doors2.length; i++) {
+        const door2 = doors2[i];
+        if (
+          player.hitbox.position.x <= door2.position.x + door2.width &&
+          player.hitbox.position.x + player.hitbox.width >= door2.position.x &&
+          player.hitbox.position.y + player.hitbox.height >= door2.position.y &&
+          player.hitbox.position.y <= door2.position.y + door2.height
+        ) {
+          player.preventInput = true;
+          player.velocity.x = 0;
+          player.velocity.y = 0;
+          player.switchSprite("EnterDoor2");
+          player.enteringDoor = true;
+          door2.play();
 
           return;
         }

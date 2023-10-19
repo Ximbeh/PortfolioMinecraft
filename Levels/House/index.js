@@ -293,10 +293,36 @@ const keys = {
   w: {
     pressed: false,
   },
+  D: {
+    pressed: false,
+  },
+  A: {
+    pressed: false,
+  },
+
+  V: {
+    pressed: false,
+  },
+
+  W: {
+    pressed: false,
+  },
 
   Space: {
     pressed: false,
   },
+
+  ArrowRight: {
+    pressed: false,
+  },
+
+  ArrowLeft: {
+    pressed: false,
+  },
+
+  ArrowUp: {
+    pressed: false,
+  }
 };
 
 const camera = {
@@ -394,12 +420,39 @@ window.addEventListener("keydown", (event) => {
 
     case "w":
       if (player.velocity.y === 0) player.velocity.y = -10;
-
       break;
 
     case "v":
       keys.v.pressed = true;
       break;
+
+      case "D":
+      keys.d.pressed = true;
+      break;
+
+    case "A":
+      keys.a.pressed = true;
+      break;
+
+    case "W":
+      if (player.velocity.y === 0) player.velocity.y = -10;
+      break;
+
+    case "V":
+      keys.v.pressed = true;
+      break;
+
+    case "ArrowRight":
+      keys.d.pressed = true;
+      break;
+
+      case "ArrowUp":
+        if (player.velocity.y === 0) player.velocity.y = -10;
+        break;
+
+        case "ArrowLeft": 
+        keys.a.pressed = true;
+        break;
 
     case " ":
       for (let i = 0; i < Tutorial.length; i++) {
@@ -638,5 +691,27 @@ window.addEventListener("keyup", (event) => {
     case "v":
       keys.v.pressed = false;
       break;
+
+      case "D":
+        keys.d.pressed = false;
+        break;
+  
+      case "A":
+        keys.a.pressed = false;
+        break;
+  
+      case "V":
+        keys.v.pressed = false;
+        break;
+
+        case "ArrowRight":
+      keys.d.pressed = false;
+      break;
+
+      
+
+        case "ArrowLeft": 
+        keys.a.pressed = false;
+        break;
   }
 });

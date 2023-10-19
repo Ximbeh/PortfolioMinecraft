@@ -160,8 +160,8 @@ const player = new Player({
 const doors = [
   new Sprite({
     position: {
-      x: 196,
-      y: 320,
+      x: 644,
+      y: 194,
     },
     imageSrc: "./img/Objects/Door/Door.png",
     frameRate: 4,
@@ -197,7 +197,7 @@ const keys = {
 const background = new Sprite({
   position: {
     x: 0,
-    y: -320,
+    y: 0,
   },
   imageSrc: "./img/Background/BackgroundVillage.png",
 })

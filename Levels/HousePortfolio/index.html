@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portcraft</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+
+    <div id="overlayTalk" class="overlayTalk">
+      <div id="talk" class="talk">
+        <div class="buttonTalk closeButtonTalk">
+          <button id="closeButton" class="closeButton">Fechar</button>
+        </div>
+        <div class="buttonTalk nextButtonTalk">
+          <button id="nextButton" class="nextButton">Proximo</button>
+        </div>
+      </div>
+    </div>
+     
+  </body>
+</html>
+
+<div>
+  <canvas></canvas>
+</div>
+
+<!-- Black Transition -->
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.1/gsap.min.js"
+  integrity="sha512-Mf/xUqfWvDIr+1B6zfnIDIiG7XHzyP/guXUWgV6PgaQoIFeXkJQR5XWh9fqAiCiRCpemabt3naV4jhDWVnuYDQ=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+></script>
+
+<script src="./js/utils.js"></script>
+<script src="./js/alert.js"></script>
+<script src="./js/classes/CollisionBlock.js"></script>
+<script src="./js/classes/Sprite.js"></script>
+<script src="./js/classes/Player.js"></script>
+<script src="./js/data/collision.js"></script>
+<script src="index.js"></script>
