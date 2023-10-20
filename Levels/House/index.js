@@ -54,6 +54,7 @@ const player = new Player({
     y:320
   },
   collisionBlocks,
+  opacity: 100,
   imageSrc: "./img/Steve/Respiração.png",
   // mesma coisa que collisionBlocks: collisionBlocks,
   animations: {
@@ -230,6 +231,21 @@ const Chests = [
   }),
 ];
 
+//Ui Chest
+const UiChests = [
+    new Sprite ({
+      position: {
+        x: 320,
+        y: 50,
+      },
+      imageSrc: "./img/Objects/Chest/UI/UI.png",
+      frameRate: 1,
+      opacity: 0,
+      
+    })
+
+]
+
 //Bed
 const Beds = [
   new Sprite({
@@ -374,11 +390,19 @@ function animate() {
     Chest.update(); // Animate Chest sprites
   });
 
+  //CHEST UI
+  //Appear chest UI
+  UiChests.forEach((UiChest) =>{
+    UiChest.update();
+  });
+
   //Animate Bed
   Beds.forEach((Bed) => {
     Bed.update(); // Animate Bed sprites
   });
 
+  
+  
   player.update();
 
   player.handleInput(keys);
@@ -455,6 +479,8 @@ window.addEventListener("keydown", (event) => {
         break;
 
     case " ":
+    case "Enter":
+    case "Escape":
       for (let i = 0; i < Tutorial.length; i++) {
         const Tutorials = Tutorial[i];
 
@@ -619,9 +645,10 @@ window.addEventListener("keydown", (event) => {
           return;
         }
       }
-
       for (let i = 0; i < Chests.length; i++) {
+        const UiChest = UiChests[i]
         const Chest = Chests[i];
+        
         if (
           player.hitbox.position.x <= Chest.position.x + Chest.width &&
           player.hitbox.position.x + player.hitbox.width >= Chest.position.x &&
@@ -630,23 +657,38 @@ window.addEventListener("keydown", (event) => {
         ) {
           if (Chest.id === 1) {
             if (!ChestOpened1) {
+              UiChest.opacity = 100
+              player.opacity = 0
               Chest.opacity = 100; // Baú fica opaco quando aberto
               ChestOpened1 = true;
               console.log("Chest 1 aberto");
               Chest.play();
+              let itensChest = document.getElementById("itensChest");
+              itensChest.style.display = "flex";
+
             } else {
+              UiChest.opacity = 0
+              player.opacity = 100
               Chest.opacity = 0; // Baú fica transparente quando fechado
               ChestOpened1 = false;
               console.log("Chest 1 fechado");
               Chest.play();
+              let itensChest = document.getElementById("itensChest");
+              itensChest.style.display = "none";
+
+
             }
           } else if (Chest.id === 2) {
             if (!ChestOpened2) {
+              UiChests.opacity = 100
+              player.opacity = 0
               Chest.opacity = 0; // Baú fica opaco quando aberto
               ChestOpened2 = true;
               console.log("Chest 2 aberto");
               Chest.play();
             } else {
+              
+              player.opacity = 100
               Chest.opacity = 100; // Baú fica transparente quando fechado
               ChestOpened2 = false;
               console.log("Chest 2 fechado");

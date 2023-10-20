@@ -1,5 +1,5 @@
 class Player extends Sprite {
-    constructor({ position, collisionBlocks, imageSrc, animations, loop }) {
+    constructor({ position, collisionBlocks, imageSrc, animations, loop, opacity = 100, }) {
       const frameRate = animations.Stoped.frameRate;
       super({ imageSrc, frameRate, loop });
       this.position = position;
@@ -13,6 +13,7 @@ class Player extends Sprite {
       this.animations = animations;
       this.lastDirection = "left";
       this.enteringDoor = false;
+      this.opacity = opacity
   
       for (let key in this.animations) {
         const image = new Image();
@@ -30,7 +31,10 @@ class Player extends Sprite {
         height: 80,
       };
     }
-  
+    opacityDraw (){
+      c.save()
+      c.globalAlpha = this.opacity / 100;
+    }
     //KEYS ANIMATION
     handleInput(keys) {
       this.velocity.x = 0;
@@ -108,6 +112,8 @@ class Player extends Sprite {
       // c.fillRect(this.hitbox.position.x, this.hitbox.position.y, this.hitbox.width, this.hitbox.height)
   
       this.draw();
+      this.opacityDraw();
+      
   
       this.position.x += this.velocity.x;
       this.updateHitbox();

@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
   var overlay = document.getElementById("overlay");
   var okButton = document.getElementById("okButton");
+  
 
 
   okButton.addEventListener("click", function() {
@@ -8,7 +9,9 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 
   overlay.style.display = "flex";
+
 });
+
 
 document.addEventListener("DOMContentLoaded", function() {
   var overlayTalk = document.getElementById("overlayTalk");
