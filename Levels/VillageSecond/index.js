@@ -51,6 +51,10 @@ const player = new Player({
     x:300,
     y:320
   }
+  : saiuHouse ==="social"?{
+    x:820,
+    y:320
+  }
   : proximaFase ==="umParaDois"?{
     x:1,
     y:320
@@ -134,7 +138,7 @@ const player = new Player({
         gsap.to(overlay, {
           opacity: 1,
           onComplete: () => {
-            window.location.href = '../House/index.html';
+            window.location.href = '../HouseSocial/index.html';
             gsap.to(overlay, {
                 opacity: 0,
             })
