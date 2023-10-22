@@ -46,11 +46,11 @@ const gravity = 0.5
 var proximaFase = sessionStorage.getItem("proximaFase")
 
 const player = new Player({
-  position: proximaFase==="doisParaTres"?{
+  position: proximaFase==="tresParaQuatro"?{
     x: 2,
     y: 320,
   }
-  : proximaFase = "quatroParaTres"?{
+  : proximaFase = "cincoParaQuatro"?{
     x: 940,
     y: 320,
   }
@@ -99,25 +99,6 @@ const player = new Player({
       frameBuffer: 1,
       loop: true,
     },
-    EnterDoor: {
-      imageSrc: "./img/Steve/enterDoor.png",
-      frameRate: 18,
-      frameBuffer: 3,
-      loop: false,
-      onComplete: () => {
-        console.log("completo");
-
-        gsap.to(overlay, {
-          opacity: 1,
-          onComplete: () => {
-            window.location.href = '../HouseVisited/index.html';
-            gsap.to(overlay, {
-                opacity: 0,
-            })
-          }
-        });
-      },
-    },
     NextLevel: {
       imageSrc: "./img/Steve/RunRight.png",
       frameRate: 34,
@@ -125,11 +106,11 @@ const player = new Player({
       loop: false,
       onComplete: () => {
         console.log("proximo nivel");
-        sessionStorage.setItem("proximaFase", "tresParaQuatro")
+        sessionStorage.setItem("proximaFase", "quatroParaCinco")
         gsap.to(overlay, {
           opacity: 1,
           onComplete: () => {
-            window.location.href = '../ForestStart/index.html';
+            window.location.href = '../ForestSecond/index.html';
             gsap.to(overlay, {
                 opacity: 0,
             })
@@ -144,12 +125,12 @@ const player = new Player({
       loop: false,
       onComplete: () => {
         console.log("voltar nivel");
-        sessionStorage.setItem("proximaFase", "tresParaDois")
+        sessionStorage.setItem("proximaFase", "quatroParaTres")
         // player.lastDirection = "left";
         gsap.to(overlay, {
           opacity: 1,
           onComplete: () => {
-            window.location.href = '../VillageSecond/index.html';
+            window.location.href = '../VillageThird/index.html';
             gsap.to(overlay, {
                 opacity: 0,
             })
@@ -160,20 +141,6 @@ const player = new Player({
   },
 })
 
-//Door
-const doors = [
-  new Sprite({
-    position: {
-      x: 644,
-      y: 194,
-    },
-    imageSrc: "./img/Objects/Door/Door.png",
-    frameRate: 4,
-    frameBuffer: 6,
-    loop: false,
-    autoplay: false,
-  }),
-];
 
 //Default keys position (Not pressed)
 const keys = {
@@ -199,11 +166,11 @@ const keys = {
 
 //Background definition
 const background = new Sprite({
-  position: {
+  position: { 
     x: 0,
-    y: 0,
+    y: -2,
   },
-  imageSrc: "./img/Background/BackgroundVillage.png",
+  imageSrc: "./img/Background/ForestStart.png",
 })
 
 const backgroundImageHeight = 576
@@ -240,11 +207,6 @@ function animate() {
  
   player.checkForHorizontalCanvasCollision()
 
-  //Animate Objects
-  //animate door
-  doors.forEach((door) => {
-    door.update(); // Animate door sprites
-  });
 
   player.update()
 
@@ -323,32 +285,6 @@ window.addEventListener('keydown', (event) => {
 
       case "v":
       keys.v.pressed = true;
-      break;
-
-      case " ":
-        
-
-        
-  
-
-      for (let i = 0; i < doors.length; i++) {
-        const door = doors[i];
-        if (
-          player.hitbox.position.x <= door.position.x + door.width &&
-          player.hitbox.position.x + player.hitbox.width >= door.position.x &&
-          player.hitbox.position.y + player.hitbox.height >= door.position.y &&
-          player.hitbox.position.y <= door.position.y + door.height
-        ) {
-          player.preventInput = true;
-          player.velocity.x = 0;
-          player.velocity.y = 0;
-          player.switchSprite("EnterDoor");
-          player.enteringDoor = true;
-          door.play();
-
-          return;
-        }
-      }
       break;
   }
   event.preventDefault();
