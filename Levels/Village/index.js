@@ -47,7 +47,7 @@ var entrouHouse = sessionStorage.getItem("entrouHouse")
 var proximaFase = sessionStorage.getItem("proximaFase")
 
 const player = new Player({
-  position: proximaFase ==="doisParaUm"?{
+  position: proximaFase ==="villaDoisParaVillaUm"?{
     x: 940,
     y: 300,
   }
@@ -129,7 +129,7 @@ const player = new Player({
       loop: false,
       onComplete: () => {
         console.log("proximo nivel");
-        sessionStorage.setItem("proximaFase", "umParaDois")
+        sessionStorage.setItem("proximaFase", "villaUmParaVillaDois")
         gsap.to(overlay, {
           opacity: 1,
           onComplete: () => {

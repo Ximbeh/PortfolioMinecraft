@@ -46,11 +46,11 @@ const gravity = 0.5
 var proximaFase = sessionStorage.getItem("proximaFase")
 
 const player = new Player({
-  position: proximaFase==="doisParaTres"?{
+  position: proximaFase==="villaDoisParaVillaTres"?{
     x: 2,
     y: 320,
   }
-  : proximaFase = "quatroParaTres"?{
+  : proximaFase = "florestaUmParaVillaTres"?{
     x: 940,
     y: 320,
   }
@@ -125,7 +125,7 @@ const player = new Player({
       loop: false,
       onComplete: () => {
         console.log("proximo nivel");
-        sessionStorage.setItem("proximaFase", "tresParaQuatro")
+        sessionStorage.setItem("proximaFase", "villaTresParaFlorestaUm")
         gsap.to(overlay, {
           opacity: 1,
           onComplete: () => {
@@ -144,7 +144,7 @@ const player = new Player({
       loop: false,
       onComplete: () => {
         console.log("voltar nivel");
-        sessionStorage.setItem("proximaFase", "tresParaDois")
+        sessionStorage.setItem("proximaFase", "villaTresParaVillaDois")
         // player.lastDirection = "left";
         gsap.to(overlay, {
           opacity: 1,
