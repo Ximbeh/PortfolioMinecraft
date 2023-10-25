@@ -44,13 +44,14 @@ const gravity = 0.5
 
 //Players
 var proximaFase = sessionStorage.getItem("proximaFase")
+var voltaFase = sessionStorage.getItem("voltaFase")
 
 const player = new Player({
   position: proximaFase==="florestaUmParaFlorestaDois"?{
     x: 2,
     y: 320,
   }
-  : proximaFase = "florestaTresParaFlorestaDois"?{
+  : voltaFase = "florestaTresParaFlorestaDois"?{
     x: 940,
     y: 320,
   }
@@ -105,8 +106,9 @@ const player = new Player({
       frameBuffer: 2,
       loop: false,
       onComplete: () => {
-        console.log("proximo nivel");
-        sessionStorage.setItem("proximaFase", "florestaDoisParaFlorestaTres")
+      console.log("proximo nivel");
+      sessionStorage.setItem("proximaFase", "florestaDoisParaFlorestaTres")
+      // sessionStorage.setItem("saiuHouse", "false")
         gsap.to(overlay, {
           opacity: 1,
           onComplete: () => {
@@ -139,7 +141,8 @@ const player = new Player({
       },
     },
   },
-});
+})
+    
 
 const fires = [
   new Sprite({
@@ -335,8 +338,79 @@ window.addEventListener('keydown', (event) => {
       keys.v.pressed = true;
       break;
 
-      
+      case " ":
+      case "Enter":
+      case "Escape":
+
+      let isPlayerTalkingToNpc1 = false
+
+      for (let i = 0; i < NPC.length; i++) {
+        const NPCS = NPC[i];
+
+        if (
+          player.hitbox.position.x <= NPCS.position.x + NPCS.width &&
+          player.hitbox.position.x + player.hitbox.width >=
+            NPCS.position.x &&
+          player.hitbox.position.y + player.hitbox.height >=
+            NPCS.position.y &&
+          player.hitbox.position.y <= NPCS.position.y + NPCS.height
+        ) {
+          var overlayTalk = document.getElementById("overlayTalk");
+          var talk = document.getElementById("talk");
+          var closeButton = document.getElementById("closeButton");
+          var nextButton = document.getElementById("nextButton");
+
+          var imagesBernardo = [
+            "./img/NPC/Talk/TalkBernardo1.png",
+            "./img/NPC/Talk/TalkBernardo2.png",
+            "./img/NPC/Talk/TalkBernardo3.png",
+            "./img/NPC/Talk/TalkBernardo4.png",
+          ];  
+
+          var imagesEnzo = [
+            "./img/NPC/Talk/TalkEnzo1.png",
+            "./img/NPC/Talk/TalkEnzo2.png",
+          ];
+
+          var images = (i === 0) ? imagesEnzo : imagesBernardo;
+           var currentImageIndex = 0;
+
+           // Atualiza a imagem exibida
+      function updateImage(index) {
+        talk.style.backgroundImage = `url('${images[index]}')`;
+      }
+
+      // Fecha o diálogo
+      function hideTalk() {
+        overlayTalk.style.display = "none";
+        currentImageIndex = 0; // Reinicia o índice para a primeira imagem
+        updateImage(currentImageIndex);
+
+        // Define o comprimento da matriz como 4 (para o NPC Enzo)
+        if (i === 0) {
+          imagesEnzo.length = 4;
+        }
+      }
+
+      closeButton.addEventListener("click", hideTalk);
+
+      nextButton.addEventListener("click", function () {
+        if (currentImageIndex < images.length - 1) {
+          currentImageIndex++;
+          updateImage(currentImageIndex);
+        } else {
+          hideTalk();
+        }
+      });
+
+      // Mostra o diálogo
+      overlayTalk.style.display = "flex";
+      overlayTalk.style.zIndex = "99999";
+      talk.style.display = "flex";
+      updateImage(currentImageIndex);
+    }
   }
+}
   event.preventDefault();
 })
 

@@ -44,6 +44,7 @@ const gravity = 0.5
 
 //Players
 var proximaFase = sessionStorage.getItem("proximaFase")
+var voltaFase = sessionStorage.getItem("voltaFase")
 var saiuHouse = sessionStorage.getItem("saiuHouse")
 
 const player = new Player({
@@ -59,7 +60,7 @@ const player = new Player({
     x:1,
     y:320
   }
-  : proximaFase === "villaTresParaVillaDois"?{
+  : voltaFase === "villaTresParaVillaDois"?{
     x: 940,
     y: 300,
   }
@@ -173,7 +174,7 @@ const player = new Player({
       loop: false,
       onComplete: () => {
         console.log("voltar nivel");
-        sessionStorage.setItem("proximaFase", "vilaDoisParaVillaUm")
+        sessionStorage.setItem("voltaFase", "villaDoisParaVillaUm")
         sessionStorage.setItem("saiuHouse", "false")
         // player.lastDirection = "left";
         gsap.to(overlay, {

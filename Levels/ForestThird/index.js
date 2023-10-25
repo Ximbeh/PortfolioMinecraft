@@ -44,13 +44,14 @@ const gravity = 0.5
 
 //Players
 var proximaFase = sessionStorage.getItem("proximaFase")
+var voltaFase = sessionStorage.getItem("voltaFase")
 
 const player = new Player({
   position: proximaFase==="florestaDoisParaFlorestaTres"?{
     x: 2,
     y: 320,
   }
-  : proximaFase = "florestaQuatroParaFlorestaTres"?{
+  : voltaFase = "florestaQuatroParaFlorestaTres"?{
     x: 940,
     y: 320,
   }
@@ -125,12 +126,12 @@ const player = new Player({
       loop: false,
       onComplete: () => {
         console.log("voltar nivel");
-        sessionStorage.setItem("proximaFase", "florestaTresParaFlorestaDois")
+        sessionStorage.setItem("voltaFase", "florestaTresParaFlorestaDois")
         // player.lastDirection = "left";
         gsap.to(overlay, {
           opacity: 1,
           onComplete: () => {
-            window.location.href = '../VillageSecond/index.html';
+            window.location.href = '../ForestSecond/index.html';
             gsap.to(overlay, {
                 opacity: 0,
             })

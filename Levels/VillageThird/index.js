@@ -44,13 +44,14 @@ const gravity = 0.5
 
 //Players
 var proximaFase = sessionStorage.getItem("proximaFase")
+var voltaFase = sessionStorage.getItem("voltaFase")
 
 const player = new Player({
   position: proximaFase==="villaDoisParaVillaTres"?{
     x: 2,
     y: 320,
   }
-  : proximaFase = "florestaUmParaVillaTres"?{
+  : voltaFase = "florestaUmParaVillaTres"?{
     x: 940,
     y: 320,
   }
@@ -124,8 +125,9 @@ const player = new Player({
       frameBuffer: 2,
       loop: false,
       onComplete: () => {
-        console.log("proximo nivel");
-        sessionStorage.setItem("proximaFase", "villaTresParaFlorestaUm")
+      console.log("proximo nivel");
+      sessionStorage.setItem("proximaFase", "villaTresParaFlorestaUm")
+      // sessionStorage.setItem("saiuHouse", "false")
         gsap.to(overlay, {
           opacity: 1,
           onComplete: () => {
@@ -144,7 +146,7 @@ const player = new Player({
       loop: false,
       onComplete: () => {
         console.log("voltar nivel");
-        sessionStorage.setItem("proximaFase", "villaTresParaVillaDois")
+        sessionStorage.setItem("voltaFase", "villaTresParaVillaDois")
         // player.lastDirection = "left";
         gsap.to(overlay, {
           opacity: 1,
@@ -159,6 +161,8 @@ const player = new Player({
     },
   },
 })
+
+
 
 //Door
 const doors = [

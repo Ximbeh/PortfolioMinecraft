@@ -481,64 +481,131 @@ window.addEventListener("keydown", (event) => {
     case " ":
     case "Enter":
     case "Escape":
-      for (let i = 0; i < Tutorial.length; i++) {
-        const Tutorials = Tutorial[i];
+      let isPlayerNearChest = false;
 
-        //Interagir com NPC Cairé
+      for (let i = 0; i < Chests.length; i++) {
+        const UiChest = UiChests[i]
+        const Chest = Chests[i];
+        
         if (
-          player.hitbox.position.x <= Tutorials.position.x + Tutorials.width &&
-          player.hitbox.position.x + player.hitbox.width >=
-            Tutorials.position.x &&
-          player.hitbox.position.y + player.hitbox.height >=
-            Tutorials.position.y &&
-          player.hitbox.position.y <= Tutorials.position.y + Tutorials.height
+          player.hitbox.position.x <= Chest.position.x + Chest.width &&
+          player.hitbox.position.x + player.hitbox.width >= Chest.position.x &&
+          player.hitbox.position.y + player.hitbox.height >= Chest.position.y &&
+          player.hitbox.position.y <= Chest.position.y + Chest.height
         ) {
-          var overlayTalk = document.getElementById("overlayTalk");
-          var talk = document.getElementById("talk");
-          var closeButton = document.getElementById("closeButton");
-          var nextButton = document.getElementById("nextButton");
+          if (Chest.id === 1) {
+            if (!ChestOpened1) {
+              UiChest.opacity = 100
+              player.opacity = 0
+              Chest.opacity = 100; // Baú fica opaco quando aberto
+              ChestOpened1 = true;
+              console.log("Chest 1 aberto");
+              Chest.play();
+              let itensChest = document.getElementById("itensChest");
+              itensChest.style.display = "grid";
 
-          var images = [
-            "./img/Objects/Talks/TalkTest.png",
-            "./img/Objects/Talks/TalkCaire2.png",
-            "./img/Objects/Talks/TalkCaire3.png",
-            "./img/Objects/Talks/TalkCaire4.png",
-            "./img/Objects/Talks/TalkCaire5.png",
-            "./img/Objects/Talks/TalkCaire6.png",
-          ];
-
-          var currentImageIndex = 0;
-
-          // Atualiza a imagem exibida
-          function updateImage(index) {
-            talk.style.backgroundImage = `url('${images[index]}')`;
-          }
-
-          // Fecha o diálogo
-          function hideTalk() {
-            overlayTalk.style.display = "none";
-            currentImageIndex = 0; // Reinicia o índice para a primeira imagem
-            updateImage(currentImageIndex);
-          }
-
-          closeButton.addEventListener("click", hideTalk);
-
-          nextButton.addEventListener("click", function () {
-            if (currentImageIndex < images.length - 1) {
-              currentImageIndex++;
-              updateImage(currentImageIndex);
             } else {
-              hideTalk();
-            }
-          });
+              UiChest.opacity = 0
+              player.opacity = 100
+              Chest.opacity = 0; // Baú fica transparente quando fechado
+              ChestOpened1 = false;
+              console.log("Chest 1 fechado");
+              Chest.play();
+              let itensChest = document.getElementById("itensChest");
+              itensChest.style.display = "none";
 
-          // Mostra o diálogo
-          overlayTalk.style.display = "flex";
-          overlayTalk.style.zIndex = "99999";
-          talk.style.display = "flex";
-          updateImage(currentImageIndex);
+
+            }
+            isPlayerNearChest = true;
+            break;
+          } else if (Chest.id === 2) {
+            if (!ChestOpened2) {
+              UiChests.opacity = 100
+              player.opacity = 0
+              Chest.opacity = 0; // Baú fica opaco quando aberto
+              ChestOpened2 = true;
+              console.log("Chest 2 aberto");
+              Chest.play();
+            } else {
+              
+              player.opacity = 100
+              Chest.opacity = 100; // Baú fica transparente quando fechado
+              ChestOpened2 = false;
+              console.log("Chest 2 fechado");
+              Chest.play();
+            }
+            isPlayerNearChest = true;
+            break;
+          }
         }
       }
+
+
+
+      if (!isPlayerNearChest) {
+        for (let i = 0; i < Tutorial.length; i++) {
+          const Tutorials = Tutorial[i];
+  
+          //Interagir com NPC Cairé
+          if (
+            player.hitbox.position.x <= Tutorials.position.x + Tutorials.width &&
+            player.hitbox.position.x + player.hitbox.width >=
+              Tutorials.position.x &&
+            player.hitbox.position.y + player.hitbox.height >=
+              Tutorials.position.y &&
+            player.hitbox.position.y <= Tutorials.position.y + Tutorials.height
+          ) {
+            var overlayTalk = document.getElementById("overlayTalk");
+            var talk = document.getElementById("talk");
+            var closeButton = document.getElementById("closeButton");
+            var nextButton = document.getElementById("nextButton");
+  
+            var images = [
+              "./img/Objects/Talks/TalkTest.png",
+              "./img/Objects/Talks/TalkCaire2.png",
+              "./img/Objects/Talks/TalkCaire3.png",
+              "./img/Objects/Talks/TalkCaire4.png",
+              "./img/Objects/Talks/TalkCaire5.png",
+              "./img/Objects/Talks/TalkCaire6.png",
+            ];
+  
+            var currentImageIndex = 0;
+  
+            // Atualiza a imagem exibida
+            function updateImage(index) {
+              talk.style.backgroundImage = `url('${images[index]}')`;
+            }
+  
+            // Fecha o diálogo
+            function hideTalk() {
+              overlayTalk.style.display = "none";
+              currentImageIndex = 0; // Reinicia o índice para a primeira imagem
+              updateImage(currentImageIndex);
+            }
+  
+            closeButton.addEventListener("click", hideTalk);
+  
+            nextButton.addEventListener("click", function () {
+              if (currentImageIndex < images.length - 1) {
+                currentImageIndex++;
+                updateImage(currentImageIndex);
+              } else {
+                hideTalk();
+              }
+            });
+  
+            // Mostra o diálogo
+            overlayTalk.style.display = "flex";
+            overlayTalk.style.zIndex = "99999";
+            talk.style.display = "flex";
+            updateImage(currentImageIndex);
+          }
+        }
+
+
+       }
+
+
 
       //Interagir com as Fornalhas
       const Furnace = Furnaces;
@@ -643,58 +710,6 @@ window.addEventListener("keydown", (event) => {
           door.play();
 
           return;
-        }
-      }
-      for (let i = 0; i < Chests.length; i++) {
-        const UiChest = UiChests[i]
-        const Chest = Chests[i];
-        
-        if (
-          player.hitbox.position.x <= Chest.position.x + Chest.width &&
-          player.hitbox.position.x + player.hitbox.width >= Chest.position.x &&
-          player.hitbox.position.y + player.hitbox.height >= Chest.position.y &&
-          player.hitbox.position.y <= Chest.position.y + Chest.height
-        ) {
-          if (Chest.id === 1) {
-            if (!ChestOpened1) {
-              UiChest.opacity = 100
-              player.opacity = 0
-              Chest.opacity = 100; // Baú fica opaco quando aberto
-              ChestOpened1 = true;
-              console.log("Chest 1 aberto");
-              Chest.play();
-              let itensChest = document.getElementById("itensChest");
-              itensChest.style.display = "flex";
-
-            } else {
-              UiChest.opacity = 0
-              player.opacity = 100
-              Chest.opacity = 0; // Baú fica transparente quando fechado
-              ChestOpened1 = false;
-              console.log("Chest 1 fechado");
-              Chest.play();
-              let itensChest = document.getElementById("itensChest");
-              itensChest.style.display = "none";
-
-
-            }
-          } else if (Chest.id === 2) {
-            if (!ChestOpened2) {
-              UiChests.opacity = 100
-              player.opacity = 0
-              Chest.opacity = 0; // Baú fica opaco quando aberto
-              ChestOpened2 = true;
-              console.log("Chest 2 aberto");
-              Chest.play();
-            } else {
-              
-              player.opacity = 100
-              Chest.opacity = 100; // Baú fica transparente quando fechado
-              ChestOpened2 = false;
-              console.log("Chest 2 fechado");
-              Chest.play();
-            }
-          }
         }
       }
 

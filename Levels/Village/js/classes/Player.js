@@ -80,7 +80,7 @@ class Player extends Sprite {
     ) {
       this.velocity.x = 0
       if(
-        this.hitbox.position.x + this.hitbox.width + this.velocity.x >= 1022
+        this.hitbox.position.x + this.hitbox.width + this.velocity.x >= 1000
       ){
         console.log("direita");
         player.preventInput = true;

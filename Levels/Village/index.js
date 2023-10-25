@@ -44,10 +44,10 @@ const gravity = 0.5
 //Players
 var saiuHouse = sessionStorage.getItem("saiuHouse")
 var entrouHouse = sessionStorage.getItem("entrouHouse")
-var proximaFase = sessionStorage.getItem("proximaFase")
+var voltaFase = sessionStorage.getItem("voltaFase")
 
 const player = new Player({
-  position: proximaFase ==="villaDoisParaVillaUm"?{
+  position: voltaFase ==="villaDoisParaVillaUm"?{
     x: 940,
     y: 300,
   }
