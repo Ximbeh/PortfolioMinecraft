@@ -158,6 +158,28 @@ const fires = [
   }),
 ];
 
+const tree = [
+  new Sprite({
+    position: {
+      x: 172,
+      y: 76,
+    },
+    imageSrc: "./img/Objects/Tree/carvalho.png",
+    frameRate: 1,
+    frameBuffer: 1,
+  }),
+
+  new Sprite({
+    position: {
+      x: 590,
+      y: 76,
+    },
+    imageSrc: "./img/Objects/Tree/carvalhoBranco.png",
+    frameRate: 1,
+    frameBuffer: 1,
+  }),
+];
+
 const NPC = [
   new Sprite({
     position: {
@@ -260,6 +282,10 @@ function animate() {
 
 
   player.update()
+
+  tree.forEach((tree) => {
+    tree.update();
+  });
 
   player.velocity.x = 0;
     //Right

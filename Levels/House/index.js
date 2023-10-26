@@ -401,9 +401,9 @@ function animate() {
     Bed.update(); // Animate Bed sprites
   });
 
-  
-  
   player.update();
+  
+  
 
   player.handleInput(keys);
   c.restore();
@@ -507,6 +507,10 @@ window.addEventListener("keydown", (event) => {
             } else {
               UiChest.opacity = 0
               player.opacity = 100
+              player.position = {
+                x: 448,
+                y: 341,
+              }
               Chest.opacity = 0; // Baú fica transparente quando fechado
               ChestOpened1 = false;
               console.log("Chest 1 fechado");
@@ -529,6 +533,10 @@ window.addEventListener("keydown", (event) => {
             } else {
               
               player.opacity = 100
+              player.position = {
+                x: 448,
+                y: 341,
+              }
               Chest.opacity = 100; // Baú fica transparente quando fechado
               ChestOpened2 = false;
               console.log("Chest 2 fechado");
@@ -545,7 +553,7 @@ window.addEventListener("keydown", (event) => {
       if (!isPlayerNearChest) {
         for (let i = 0; i < Tutorial.length; i++) {
           const Tutorials = Tutorial[i];
-  
+
           //Interagir com NPC Cairé
           if (
             player.hitbox.position.x <= Tutorials.position.x + Tutorials.width &&
@@ -555,6 +563,8 @@ window.addEventListener("keydown", (event) => {
               Tutorials.position.y &&
             player.hitbox.position.y <= Tutorials.position.y + Tutorials.height
           ) {
+            player.opacity = 0;
+            
             var overlayTalk = document.getElementById("overlayTalk");
             var talk = document.getElementById("talk");
             var closeButton = document.getElementById("closeButton");
@@ -581,6 +591,11 @@ window.addEventListener("keydown", (event) => {
               overlayTalk.style.display = "none";
               currentImageIndex = 0; // Reinicia o índice para a primeira imagem
               updateImage(currentImageIndex);
+              player.opacity = 100;
+              player. position = {
+                x: 600,
+                y: 320,
+              }
             }
   
             closeButton.addEventListener("click", hideTalk);

@@ -142,6 +142,21 @@ const player = new Player({
   },
 })
 
+const pilar = [
+  new Sprite({
+    position: {
+      x: 460,
+      y: 195,
+    },
+    imageSrc: "./img/Objects/Pilar/Pilar.png",
+    frameRate: 1,
+    frameBuffer: 1,
+   
+  }),
+];
+
+
+
 
 //Default keys position (Not pressed)
 const keys = {
@@ -211,6 +226,11 @@ function animate() {
   //Animate Objects
 
   player.update()
+
+   //Nesta posição o pilar fica a frente do player
+   pilar.forEach((pilar) => {
+    pilar.update(); // Animate pilar sprites
+  });
 
   player.velocity.x = 0;
     //Right

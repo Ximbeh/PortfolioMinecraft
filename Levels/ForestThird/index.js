@@ -143,6 +143,8 @@ const player = new Player({
 })
 
 
+
+
 //Default keys position (Not pressed)
 const keys = {
   d: {
@@ -211,6 +213,7 @@ function animate() {
   //Animate Objects
 
   player.update()
+
 
   player.velocity.x = 0;
     //Right
