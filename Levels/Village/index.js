@@ -53,7 +53,7 @@ const player = new Player({
   }
   : saiuHouse ==="true"?
   {
-    x:180,
+    x:200,
     y:320
   }
   :

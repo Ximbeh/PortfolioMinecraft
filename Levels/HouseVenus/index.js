@@ -45,7 +45,7 @@ var entrouHouse = sessionStorage.getItem("entrouHouse")
 
 const player = new Player({
   position: entrouHouse==="true"?{
-    x: 820,
+    x: 880,
     y: 320,
   }
   :
@@ -103,12 +103,13 @@ const player = new Player({
         console.log("completo");
         sessionStorage.setItem("saiuHouse", "true");
         sessionStorage.setItem("entrouHouse", "false");
+        sessionStorage.setItem("proximaFase", "false")
         sessionStorage.setItem("voltaFase", "false")
 
         gsap.to(overlay, {
           opacity: 1,
           onComplete: () => {
-            window.location.href = "../Village/index.html";
+            window.location.href = "../ForestFourth/index.html";
             gsap.to(overlay, {
               opacity: 0,
             });
@@ -139,8 +140,8 @@ const player = new Player({
 const doors = [
   new Sprite({
     position: {
-      x: 836,
-      y: 320,
+      x: 900,
+      y: 319,
     },
     imageSrc: "./img/Objects/Door/Door.png",
     frameRate: 4,
@@ -202,67 +203,6 @@ const Furnaces = [
   }),
 ];
 
-//Chest
-const Chests = [
-  new Sprite({
-    position: {
-      x: 448,
-      y: 341,
-    },
-    imageSrc: "./img/Objects/Chest/DualChestOpening.png",
-    frameRate: 14,
-    frameBuffer: 3,
-    loop: false,
-    autoplay: false,
-    opacity: 100,
-    id: 1,
-  }),
-  new Sprite({
-    position: {
-      x: 448,
-      y: 341,
-    },
-    imageSrc: "./img/Objects/Chest/DualChestClosing.png",
-    frameRate: 14,
-    frameBuffer: 3,
-    loop: false,
-    autoplay: false,
-    opacity: 0,
-    id: 2,
-  }),
-];
-
-//Ui Chest
-const UiChests = [
-    new Sprite ({
-      position: {
-        x: 320,
-        y: 50,
-      },
-      imageSrc: "./img/Objects/Chest/UI/UI.png",
-      frameRate: 1,
-      opacity: 0,
-      
-    })
-
-]
-
-//Bed
-const Beds = [
-  new Sprite({
-    position: {
-      x: 2,
-      y: 380,
-    },
-    imageSrc: "./img/Objects/Bed/Bed.png",
-    frameRate: 2,
-    frameBuffer: 1,
-    loop: false,
-    autoplay: false,
-    opacity: 100,
-  }),
-];
-
 const Tutorial = [
   new Sprite({
     position: {
@@ -283,7 +223,7 @@ const backgroundHouseStart = new Sprite({
     x: 0,
     y: 0,
   },
-  imageSrc: "./img/Background/HomeBC.png",
+  imageSrc: "./img/Background/HomeVenus.png",
 });
 
 const backgroundImageHeight = 576;
@@ -386,22 +326,6 @@ function animate() {
     Tutorial.update();
   });
 
-  //Animate Chest
-  Chests.forEach((Chest) => {
-    Chest.update(); // Animate Chest sprites
-  });
-
-  //CHEST UI
-  //Appear chest UI
-  UiChests.forEach((UiChest) =>{
-    UiChest.update();
-  });
-
-  //Animate Bed
-  Beds.forEach((Bed) => {
-    Bed.update(); // Animate Bed sprites
-  });
-
   player.update();
   
   
@@ -426,8 +350,6 @@ let SecondFurnaceActive = false;
 let Furance0Active = false;
 let Furance1Active = false;
 
-let ChestOpened1 = false;
-let ChestOpened2 = false;
 
 //When Key is pressed
 window.addEventListener("keydown", (event) => {
@@ -482,76 +404,8 @@ window.addEventListener("keydown", (event) => {
     case " ":
     case "Enter":
     case "Escape":
-      let isPlayerNearChest = false;
-
-      for (let i = 0; i < Chests.length; i++) {
-        const UiChest = UiChests[i]
-        const Chest = Chests[i];
-        
-        if (
-          player.hitbox.position.x <= Chest.position.x + Chest.width &&
-          player.hitbox.position.x + player.hitbox.width >= Chest.position.x &&
-          player.hitbox.position.y + player.hitbox.height >= Chest.position.y &&
-          player.hitbox.position.y <= Chest.position.y + Chest.height
-        ) {
-          if (Chest.id === 1) {
-            if (!ChestOpened1) {
-              UiChest.opacity = 100
-              player.opacity = 0
-              Chest.opacity = 100; // Baú fica opaco quando aberto
-              ChestOpened1 = true;
-              console.log("Chest 1 aberto");
-              Chest.play();
-              let itensChest = document.getElementById("itensChest");
-              itensChest.style.display = "grid";
-
-            } else {
-              UiChest.opacity = 0
-              player.opacity = 100
-              player.position = {
-                x: 448,
-                y: 341,
-              }
-              Chest.opacity = 0; // Baú fica transparente quando fechado
-              ChestOpened1 = false;
-              console.log("Chest 1 fechado");
-              Chest.play();
-              let itensChest = document.getElementById("itensChest");
-              itensChest.style.display = "none";
 
 
-            }
-            isPlayerNearChest = true;
-            break;
-          } else if (Chest.id === 2) {
-            if (!ChestOpened2) {
-              UiChests.opacity = 100
-              player.opacity = 0
-              Chest.opacity = 0; // Baú fica opaco quando aberto
-              ChestOpened2 = true;
-              console.log("Chest 2 aberto");
-              Chest.play();
-            } else {
-              
-              player.opacity = 100
-              player.position = {
-                x: 448,
-                y: 341,
-              }
-              Chest.opacity = 100; // Baú fica transparente quando fechado
-              ChestOpened2 = false;
-              console.log("Chest 2 fechado");
-              Chest.play();
-            }
-            isPlayerNearChest = true;
-            break;
-          }
-        }
-      }
-
-
-
-      if (!isPlayerNearChest) {
         for (let i = 0; i < Tutorial.length; i++) {
           const Tutorials = Tutorial[i];
 
@@ -617,9 +471,6 @@ window.addEventListener("keydown", (event) => {
             updateImage(currentImageIndex);
           }
         }
-
-
-       }
 
 
 
@@ -729,22 +580,6 @@ window.addEventListener("keydown", (event) => {
         }
       }
 
-      for (let i = 0; i < Beds.length; i++) {
-        const Bed = Beds[i];
-        if (
-          player.hitbox.position.x <= Bed.position.x + Bed.width &&
-          player.hitbox.position.x + player.hitbox.width >= Bed.position.x &&
-          player.hitbox.position.y + player.hitbox.height >= Bed.position.y &&
-          player.hitbox.position.y <= Bed.position.y + Bed.height
-        ) {
-          player.preventInput = true;
-          player.velocity.x = 0;
-          player.velocity.y = 0;
-          player.opacity = 0;
-          player.switchSprite("Sleep");
-          Bed.play();
-        }
-      }
       break;
   }
 
