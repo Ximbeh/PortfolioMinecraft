@@ -83,12 +83,6 @@ class Player extends Sprite {
         this.hitbox.position.x + this.hitbox.width + this.velocity.x >= 1000
       ){
         console.log("direita");
-        player.preventInput = true;
-          player.velocity.x = 0;
-          player.velocity.y = 0;
-          player.switchSprite("NextLevel");
-          player.nextingLevel = true;
-          
       }
       else {
         console.log("esquerda");

@@ -115,6 +115,7 @@ const player = new Player({
       onComplete: () => {
         console.log("proximo nivel");
         sessionStorage.setItem("proximaFase", "florestaQuatroParaFlorestaCinco")
+        sessionStorage.setItem("saiuHouse", "false")
         gsap.to(overlay, {
           opacity: 1,
           onComplete: () => {
@@ -134,6 +135,7 @@ const player = new Player({
       onComplete: () => {
         console.log("voltar nivel");
         sessionStorage.setItem("voltaFase", "florestaQuatroParaFlorestaTres")
+        sessionStorage.setItem("saiuHouse", "false")
         // player.lastDirection = "left";
         gsap.to(overlay, {
           opacity: 1,

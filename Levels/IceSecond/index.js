@@ -45,15 +45,21 @@ const gravity = 0.5
 //Players
 var proximaFase = sessionStorage.getItem("proximaFase")
 var voltaFase = sessionStorage.getItem("voltaFase")
+var saiuHouse = sessionStorage.getItem("saiuHouse")
 
 const player = new Player({
-  position: proximaFase==="geloUmParaGeloDois"?{
+  position
+  : saiuHouse === "true"?{
+    x: 430,
+    y: 200
+  }
+  : proximaFase==="geloUmParaGeloDois"?{
     x: 2,
     y: 200,
   }
   : voltaFase = "montanhaUmParaGeloDois"?{
     x: 940,
-    y: 320,
+    y: 200,
   }
   :
   {
@@ -108,6 +114,7 @@ const player = new Player({
       onComplete: () => {
         console.log("proximo nivel");
         sessionStorage.setItem("proximaFase", "geloDoisParaMontanhaUm")
+        sessionStorage.setItem("saiuHouse", "false")
         gsap.to(overlay, {
           opacity: 1,
           onComplete: () => {
@@ -127,11 +134,34 @@ const player = new Player({
       onComplete: () => {
         console.log("voltar nivel");
         sessionStorage.setItem("voltaFase", "geloDoisParaGeloUm")
+        sessionStorage.setItem("saiuHouse", "false")
         // player.lastDirection = "left";
         gsap.to(overlay, {
           opacity: 1,
           onComplete: () => {
             window.location.href = '../IceOne/index.html';
+            gsap.to(overlay, {
+                opacity: 0,
+            })
+          }
+        });
+      },
+    },
+    EnterDoor: {
+      imageSrc: "./img/Steve/enterDoor.png",
+      frameRate: 18,
+      frameBuffer: 3,
+      loop: false,
+      onComplete: () => {
+        console.log("completo");
+        sessionStorage.setItem("entrouHouse", "true");
+        sessionStorage.setItem("saiuHouse", "false");
+        sessionStorage.setItem("proximaFase", "false")
+        sessionStorage.setItem("voltaFase", "false")
+        gsap.to(overlay, {
+          opacity: 1,
+          onComplete: () => {
+            window.location.href = '../Iglu/index.html';
             gsap.to(overlay, {
                 opacity: 0,
             })
@@ -186,6 +216,19 @@ const camera = {
   },
 }
 
+//Door
+const doors = [
+  new Sprite({
+    position: {
+      x: 444,
+      y: 257,
+    },
+    imageSrc: "./img/Objects/Door/Door.png",
+    frameRate: 1,
+  }),
+  
+];
+
 //----------------------------------------------------------------//
 //ANIMATION
 
@@ -212,6 +255,11 @@ function animate() {
   player.checkForHorizontalCanvasCollision()
 
   //Animate Objects
+
+   //animate door
+   doors.forEach((door) => {
+    door.update(); // Animate door sprites
+  });
 
   player.update()
 
@@ -293,6 +341,27 @@ window.addEventListener('keydown', (event) => {
       case "v":
       keys.v.pressed = true;
       break;
+
+      case " ":
+        for (let i = 0; i < doors.length; i++) {
+          const door = doors[i];
+          if (
+            player.hitbox.position.x <= door.position.x + door.width &&
+            player.hitbox.position.x + player.hitbox.width >= door.position.x &&
+            player.hitbox.position.y + player.hitbox.height >= door.position.y &&
+            player.hitbox.position.y <= door.position.y + door.height
+          ) {
+            player.preventInput = true;
+            player.velocity.x = 0;
+            player.velocity.y = 0;
+            player.switchSprite("EnterDoor");
+            player.enteringDoor = true;
+            door.play();
+
+            return;
+          }
+        }
+        break;
   }
   event.preventDefault();
 })
