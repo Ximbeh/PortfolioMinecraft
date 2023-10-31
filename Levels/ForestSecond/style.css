@@ -101,5 +101,10 @@ div{
 }
 
 .linkButton{
-  left: 46rem
+  left: 46rem;
+  display: none;
+}
+
+.linkButtons{
+  display: none;
 }

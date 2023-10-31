@@ -344,6 +344,7 @@ function animate() {
 animate()
 
 //When Key is pressed
+
 window.addEventListener('keydown', (event) => {
   if (player.preventInput) return;
   if (event.repeat) return;
@@ -368,74 +369,112 @@ window.addEventListener('keydown', (event) => {
       case "Enter":
       case "Escape":
 
-      let isPlayerTalkingToNpc1 = false
-
       for (let i = 0; i < NPC.length; i++) {
         const NPCS = NPC[i];
-
+      
         if (
           player.hitbox.position.x <= NPCS.position.x + NPCS.width &&
-          player.hitbox.position.x + player.hitbox.width >=
-            NPCS.position.x &&
-          player.hitbox.position.y + player.hitbox.height >=
-            NPCS.position.y &&
+          player.hitbox.position.x + player.hitbox.width >= NPCS.position.x &&
+          player.hitbox.position.y + player.hitbox.height >= NPCS.position.y &&
           player.hitbox.position.y <= NPCS.position.y + NPCS.height
         ) {
           var overlayTalk = document.getElementById("overlayTalk");
           var talk = document.getElementById("talk");
           var closeButton = document.getElementById("closeButton");
           var nextButton = document.getElementById("nextButton");
-
+          var linkButtonsEnzo = document.getElementById("linkButtonsEnzo");
+          var linkButtonEnzo = document.getElementById("linkButtonEnzo");
+          var linkButtonsB1 = document.getElementById("linkButtonsBernardo1");
+          var linkButtonB1 = document.getElementById("linkButtonBernardo1");
+          var linkButtonsB2 = document.getElementById("linkButtonsBernardo2");
+          var linkButtonB2 = document.getElementById("linkButtonBernardo2");
+      
           var imagesBernardo = [
             "./img/NPC/Talk/TalkBernardo1.png",
             "./img/NPC/Talk/TalkBernardo2.png",
             "./img/NPC/Talk/TalkBernardo3.png",
             "./img/NPC/Talk/TalkBernardo4.png",
           ];  
-
+      
           var imagesEnzo = [
             "./img/NPC/Talk/TalkEnzo1.png",
             "./img/NPC/Talk/TalkEnzo2.png",
           ];
+      
+          var images = (NPC[i] === NPC[0]) ? imagesEnzo : imagesBernardo;
+          var currentImageIndex = 0;
+      
+          // Atualiza a imagem exibida
+          function updateImage(index) {
+            talk.style.backgroundImage = `url('${images[index]}')`;
+            console.log(images[index]);
+      
+            // Verifique se a imagem atual é a segunda e se o NPC é Bernardo
+            if (images[index] === "./img/NPC/Talk/TalkEnzo2.png") {
+              linkButtonsEnzo.style.display = "flex";
+              linkButtonEnzo.style.display = "block";
+              console.log("correto");
+            } else if (images[index] === "./img/NPC/Talk/TalkBernardo4.png"){
+              linkButtonsB1.style.display = "flex"
+              linkButtonB1.style.display = "block";
+            
+          } else if (images[index] === "./img/NPC/Talk/TalkBernardo3.png"){
+            linkButtonsB2.style.display = "flex"
+            linkButtonB2.style.display = "block";
+          }else {
+              linkButtonsEnzo.style.display = "none";
+              linkButtonEnzo.style.display = "none";
+              linkButtonsB1.style.display = "none"
+              linkButtonB1.style.display = "none";
+              linkButtonsB2.style.display = "none"
+            linkButtonB2.style.display = "none";
+            }
+          }
 
-          var images = (i === 0) ? imagesEnzo : imagesBernardo;
-           var currentImageIndex = 0;
+          linkButtonsEnzo.onclick = function () {
+            window.open("https://www.canva.com/design/DAFs7gHhnHU/tLCWtoi9Qo9p8VFkOrQrag/edit?utm_content=DAFs7gHhnHU&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton", "_blank")
+          }
 
-           // Atualiza a imagem exibida
-      function updateImage(index) {
-        talk.style.backgroundImage = `url('${images[index]}')`;
-      }
+          linkButtonsB1.onclick = function () {
+            window.open("https://www.canva.com/design/DAFd1kMWd78/KYFa5ZoFS38SseDFwUfdNw/edit?utm_content=DAFd1kMWd78&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton", "_blank")
 
-      // Fecha o diálogo
-      function hideTalk() {
-        overlayTalk.style.display = "none";
-        currentImageIndex = 0; // Reinicia o índice para a primeira imagem
-        updateImage(currentImageIndex);
-
-        // Define o comprimento da matriz como 4 (para o NPC Enzo)
-        if (i === 0) {
-          imagesEnzo.length = 4;
-        }
-      }
-
-      closeButton.addEventListener("click", hideTalk);
-
-      nextButton.addEventListener("click", function () {
-        if (currentImageIndex < images.length - 1) {
-          currentImageIndex++;
+          }
+          
+          linkButtonsB2.onclick = function () {
+            window.open("https://www.canva.com/design/DAFlt0wtSMo/Mz1WB680RvDgCyLbyP3kUA/view?utm_content=DAFlt0wtSMo&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink", "_blank")
+          }
+      
+          // Fecha o diálogo
+          function hideTalk() {
+            overlayTalk.style.display = "none";
+            currentImageIndex = 0; // Reinicia o índice para a primeira imagem
+            updateImage(currentImageIndex);
+      
+            // Define o comprimento da matriz como 4 (para o NPC Enzo)
+            if (i === 0) {
+              imagesEnzo.length = 4;
+            }
+          }
+      
+          closeButton.addEventListener("click", hideTalk);
+      
+          nextButton.addEventListener("click", function () {
+            if (currentImageIndex < images.length - 1) {
+              currentImageIndex++;
+              updateImage(currentImageIndex);
+            } else {
+              hideTalk();
+            }
+          });
+      
+          // Mostra o diálogo
+          overlayTalk.style.display = "flex";
+          overlayTalk.style.zIndex = "99999";
+          talk.style.display = "flex";
+      
           updateImage(currentImageIndex);
-        } else {
-          hideTalk();
         }
-      });
-
-      // Mostra o diálogo
-      overlayTalk.style.display = "flex";
-      overlayTalk.style.zIndex = "99999";
-      talk.style.display = "flex";
-      updateImage(currentImageIndex);
-    }
-  }
+      }
 }
   event.preventDefault();
 })

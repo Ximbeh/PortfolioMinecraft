@@ -118,19 +118,6 @@ const player = new Player({
     },
     Sleep: {
       imageSrc: "",
-      onComplete: () => {
-        console.log("completo");
-
-        // gsap.to(overlay, {
-        //   opacity: 1,
-        //   onComplete: () => {
-        //     window.location.href = "../Village/index.html";
-        //     gsap.to(overlay, {
-        //       opacity: 0,
-        //     });
-        //   },
-        // });
-      },
     },
   },
 });
@@ -729,6 +716,7 @@ window.addEventListener("keydown", (event) => {
         }
       }
 
+
       for (let i = 0; i < Beds.length; i++) {
         const Bed = Beds[i];
         if (
@@ -737,13 +725,11 @@ window.addEventListener("keydown", (event) => {
           player.hitbox.position.y + player.hitbox.height >= Bed.position.y &&
           player.hitbox.position.y <= Bed.position.y + Bed.height
         ) {
-          player.preventInput = true;
-          player.velocity.x = 0;
-          player.velocity.y = 0;
-          player.opacity = 0;
-          player.switchSprite("Sleep");
-          Bed.play();
-        }
+          window.open("https://miro.com/welcomeonboard/WThNR3BpTjlGZUJrZm5FRTNFeXV6VHRNRExCejBuTkw3Ukc5bjBDckpRNTdTSFh2S2xpajA5OXlIeHdtUUlUdnwzNDU4NzY0NTE5NDEwNjI4NzM3fDI=?share_link_id=217953828392", "_blank")
+          
+        } 
+
+
       }
       break;
   }

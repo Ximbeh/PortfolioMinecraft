@@ -150,6 +150,33 @@ const player = new Player({
   },
 })
 
+//Door
+const doors = [
+  new Sprite({
+    position: {
+      x: 832,
+      y: 193,
+    },
+    imageSrc: "./img/Objects/Door/Door.png",
+    frameRate: 1,
+  }),
+  
+];
+
+const NPCS = [
+  new Sprite({
+    position: {
+      x: 450,
+      y: 193,
+    },
+    imageSrc: "./img/Objects/NPC/Jeyza.png",
+    frameRate: 28,
+    frameBuffer: 29,
+    autoplay: true,
+    opacity: 100,
+  }),
+];
+
 
 
 
@@ -177,6 +204,8 @@ const keys = {
   }
 };
 
+
+
 //Background definition
 const background = new Sprite({
   position: {
@@ -186,6 +215,8 @@ const background = new Sprite({
   imageSrc: "./img/Background/BackgroundVillage.png",
 })
 
+
+
 const backgroundImageHeight = 576
 
 const camera = {
@@ -194,19 +225,6 @@ const camera = {
     y: -backgroundImageHeight + scaledCanvas.height,
   },
 }
-
-//Door
-const doors = [
-  new Sprite({
-    position: {
-      x: 832,
-      y: 193,
-    },
-    imageSrc: "./img/Objects/Door/Door.png",
-    frameRate: 1,
-  }),
-  
-];
 
 //----------------------------------------------------------------//
 //ANIMATION
@@ -239,6 +257,15 @@ function animate() {
     doors.forEach((door) => {
       door.update(); // Animate door sprites
     });
+
+    //animate NPC
+    NPCS.forEach((NPC) => {
+      NPC.update(); // Animate NPC sprites
+    });
+
+
+  
+
 
   player.update()
 
@@ -337,6 +364,72 @@ window.addEventListener('keydown', (event) => {
             door.play();
 
             return;
+          }
+        }
+
+        for (let i = 0; i < NPCS.length; i++) {
+          const NPC = NPCS[i];
+
+          //Interagir com NPC Cairé
+          if (
+            player.hitbox.position.x <= NPC.position.x + NPC.width &&
+            player.hitbox.position.x + player.hitbox.width >=
+              NPC.position.x &&
+            player.hitbox.position.y + player.hitbox.height >=
+              NPC.position.y &&
+            player.hitbox.position.y <= NPC.position.y + NPC.height
+          ) {
+            player.opacity = 0;
+            
+            var overlayTalk = document.getElementById("overlayTalk");
+            var talk = document.getElementById("talk");
+            var closeButton = document.getElementById("closeButton");
+            var nextButton = document.getElementById("nextButton");
+  
+            var images = [
+              "./img/Objects/Talks/TalkTest.png",
+              "./img/Objects/Talks/TalkCaire2.png",
+              "./img/Objects/Talks/TalkCaire3.png",
+              "./img/Objects/Talks/TalkCaire4.png",
+              "./img/Objects/Talks/TalkCaire5.png",
+              "./img/Objects/Talks/TalkCaire6.png",
+            ];
+  
+            var currentImageIndex = 0;
+  
+            // Atualiza a imagem exibida
+            function updateImage(index) {
+              talk.style.backgroundImage = `url('${images[index]}')`;
+            }
+  
+            // Fecha o diálogo
+            function hideTalk() {
+              overlayTalk.style.display = "none";
+              currentImageIndex = 0; // Reinicia o índice para a primeira imagem
+              updateImage(currentImageIndex);
+              player.opacity = 100;
+              player. position = {
+                x: 600,
+                y: 320,
+              }
+            }
+  
+            closeButton.addEventListener("click", hideTalk);
+  
+            nextButton.addEventListener("click", function () {
+              if (currentImageIndex < images.length - 1) {
+                currentImageIndex++;
+                updateImage(currentImageIndex);
+              } else {
+                hideTalk();
+              }
+            });
+  
+            // Mostra o diálogo
+            overlayTalk.style.display = "flex";
+            overlayTalk.style.zIndex = "99999";
+            talk.style.display = "flex";
+            updateImage(currentImageIndex);
           }
         }
         break;
