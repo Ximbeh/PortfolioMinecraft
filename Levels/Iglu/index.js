@@ -330,7 +330,7 @@ window.addEventListener("keydown", (event) => {
         for (let i = 0; i < Tutorial.length; i++) {
           const Tutorials = Tutorial[i];
 
-          //Interagir com NPC Cairé
+          //Interagir com NPC Ana
           if (
             player.hitbox.position.x <= Tutorials.position.x + Tutorials.width &&
             player.hitbox.position.x + player.hitbox.width >=
@@ -345,14 +345,16 @@ window.addEventListener("keydown", (event) => {
             var talk = document.getElementById("talk");
             var closeButton = document.getElementById("closeButton");
             var nextButton = document.getElementById("nextButton");
+            var linkButtons1 = document.getElementById("linkButtons1");
+            var linkButton1 = document.getElementById("linkButton1");
+            var linkButtons2 = document.getElementById("linkButtons2");
+            var linkButton2 = document.getElementById("linkButton2");
   
             var images = [
-              "./img/Objects/Talks/TalkTest.png",
-              "./img/Objects/Talks/TalkCaire2.png",
-              "./img/Objects/Talks/TalkCaire3.png",
-              "./img/Objects/Talks/TalkCaire4.png",
-              "./img/Objects/Talks/TalkCaire5.png",
-              "./img/Objects/Talks/TalkCaire6.png",
+              "./img/NPC/Caire/talk1.png",
+              "./img/NPC/Caire/talk2.png",
+              "./img/NPC/Caire/talk3.png",
+             
             ];
   
             var currentImageIndex = 0;
@@ -360,7 +362,24 @@ window.addEventListener("keydown", (event) => {
             // Atualiza a imagem exibida
             function updateImage(index) {
               talk.style.backgroundImage = `url('${images[index]}')`;
+              console.log(images[index]);
+              if (images[index] === "./img/NPC/Caire/talk2.png"){
+                linkButtons1.style.display = "flex";
+                linkButton1.style.display = "block";
+              } else if (images[index] === "./img/NPC/Caire/talk3.png"){
+                linkButtons2.style.display = "flex";
+                linkButton2.style.display = "block";
+              } 
             }
+
+            linkButtons1.onclick = function () {
+              window.open("https://github.com/Ximbeh/MarketSpace", "_blank")
+            }
+  
+            linkButtons2.onclick = function () {
+              window.open("https://github.com/Ximbeh/CATS", "_blank")
+            }
+            
   
             // Fecha o diálogo
             function hideTalk() {

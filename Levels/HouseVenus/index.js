@@ -424,14 +424,18 @@ window.addEventListener("keydown", (event) => {
             var talk = document.getElementById("talk");
             var closeButton = document.getElementById("closeButton");
             var nextButton = document.getElementById("nextButton");
+            var linkButtons1 = document.getElementById("linkButtons1");
+            var linkButton1 = document.getElementById("linkButton1");
+            var linkButtons2 = document.getElementById("linkButtons2");
+            var linkButton2 = document.getElementById("linkButton2");
   
             var images = [
-              "./img/Objects/Talks/TalkTest.png",
-              "./img/Objects/Talks/TalkCaire2.png",
-              "./img/Objects/Talks/TalkCaire3.png",
-              "./img/Objects/Talks/TalkCaire4.png",
-              "./img/Objects/Talks/TalkCaire5.png",
-              "./img/Objects/Talks/TalkCaire6.png",
+              "./img/NPC/Caire/talk1.png",
+              "./img/NPC/Caire/talk2.png",
+              "./img/NPC/Caire/talk3.png",
+              "./img/NPC/Caire/talk4.png",
+              "./img/NPC/Caire/talk5.png",
+             
             ];
   
             var currentImageIndex = 0;
@@ -439,6 +443,28 @@ window.addEventListener("keydown", (event) => {
             // Atualiza a imagem exibida
             function updateImage(index) {
               talk.style.backgroundImage = `url('${images[index]}')`;
+              console.log(images[index]);
+              if (images[index] === "./img/NPC/Caire/talk3.png"){
+                linkButtons1.style.display = "flex";
+                linkButton1.style.display = "block";
+              } else if (images[index] === "./img/NPC/Caire/talk4.png"){
+                linkButtons1.style.display = "none";
+                linkButton1.style.display = "none";
+              } 
+              else if (images[index] === "./img/NPC/Caire/talk5.png"){
+                linkButtons2.style.display = "flex";
+                linkButton2.style.display = "block";
+              }
+
+              
+            }
+
+            linkButtons1.onclick = function () {
+              window.open("https://www.canva.com/design/DAFy8xWvu3s/KvYupMZbXtOlJyihJsZtWw/view?utm_content=DAFy8xWvu3s&utm_campaign=designshare&utm_medium=link&utm_source=editor", "_blank")
+            }
+  
+            linkButtons2.onclick = function () {
+              window.open("https://www.canva.com/design/DAFy8xWvu3s/KvYupMZbXtOlJyihJsZtWw/view?utm_content=DAFy8xWvu3s&utm_campaign=designshare&utm_medium=link&utm_source=editor", "_blank")
             }
   
             // Fecha o diálogo
