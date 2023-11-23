@@ -1,11 +1,10 @@
-body{
-    background: rgb(22, 22, 22);
-
+body {
+  background: rgb(22, 22, 22);
 }
 
-div{
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+div {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

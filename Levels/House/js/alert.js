@@ -1,31 +1,27 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
   var overlay = document.getElementById("overlay");
   var okButton = document.getElementById("okButton");
-  
 
-
-  okButton.addEventListener("click", function() {
+  okButton.addEventListener("click", function () {
     overlay.style.display = "none";
   });
 
   overlay.style.display = "flex";
-
 });
 
-
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
   var overlayTalk = document.getElementById("overlayTalk");
   var talk = document.getElementById("talk");
   var closeButton = document.getElementById("closeButton");
   var nextButton = document.getElementById("nextButton");
-  
+
   var images = [
     "./img/Objects/Talks/TalkTest.png",
     "./img/Objects/Talks/TalkCaire2.png",
     "./img/Objects/Talks/TalkCaire3.png",
     "./img/Objects/Talks/TalkCaire4.png",
     "./img/Objects/Talks/TalkCaire5.png",
-    "./img/Objects/Talks/TalkCaire6.png"
+    "./img/Objects/Talks/TalkCaire6.png",
   ];
 
   var currentImageIndex = 0;
@@ -47,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
   closeButton.addEventListener("click", hideTalk);
 
-  nextButton.addEventListener("click", function() {
+  nextButton.addEventListener("click", function () {
     if (currentImageIndex >= 0 && currentImageIndex <= 4) {
       currentImageIndex++;
       if (currentImageIndex < images.length) {

@@ -1,5 +1,5 @@
-const canvas = document.querySelector('canvas')
-const c = canvas.getContext('2d')
+const canvas = document.querySelector("canvas");
+const c = canvas.getContext("2d");
 
 //Canva Size
 canvas.width = 1024;
@@ -9,22 +9,22 @@ canvas.height = 576;
 // 895
 const scaledCanvas = {
   width: canvas.width,
-  height: canvas.height
-}
+  height: canvas.height,
+};
 
 //----------------------------------------------------------------//
 
 //Array of the collision in a new ARRAY
-const floorCollisions2D = []
+const floorCollisions2D = [];
 for (let i = 0; i < floorCollisions.length; i += 96) {
-  floorCollisions2D.push(floorCollisions.slice(i, i + 96))
+  floorCollisions2D.push(floorCollisions.slice(i, i + 96));
 }
 
 const collisionBlocks = [];
 floorCollisions2D.forEach((row, y) => {
   row.forEach((symbol, x) => {
-    if (symbol !=0) {
-      console.log('aaa');
+    if (symbol != 0) {
+      console.log("aaa");
       collisionBlocks.push(
         new CollisionBlock({
           position: {
@@ -37,30 +37,31 @@ floorCollisions2D.forEach((row, y) => {
   });
 });
 
-const gravity = 0.5
+const gravity = 0.5;
 
 //----------------------------------------------------------------//
 //NEW ITENS
 //Players
-var saiuHouse = sessionStorage.getItem("saiuHouse")
-var entrouHouse = sessionStorage.getItem("entrouHouse")
-var voltaFase = sessionStorage.getItem("voltaFase")
+var saiuHouse = sessionStorage.getItem("saiuHouse");
+var entrouHouse = sessionStorage.getItem("entrouHouse");
+var voltaFase = sessionStorage.getItem("voltaFase");
 
 const player = new Player({
-  position: voltaFase ==="villaDoisParaVillaUm"?{
-    x: 940,
-    y: 300,
-  }
-  : saiuHouse ==="true"?
-  {
-    x:200,
-    y:320
-  }
-  :
-  {
-    x:1,
-    y:320
-  },
+  position:
+    voltaFase === "villaDoisParaVillaUm"
+      ? {
+          x: 940,
+          y: 300,
+        }
+      : saiuHouse === "true"
+      ? {
+          x: 200,
+          y: 320,
+        }
+      : {
+          x: 1,
+          y: 320,
+        },
   //VVV  mesma coisa que collisionBlocks: collisionBlocks VVV
   collisionBlocks,
   imageSrc: "./img/Steve/Respiração.png",
@@ -110,15 +111,15 @@ const player = new Player({
         console.log("completo");
         sessionStorage.setItem("entrouHouse", "true");
         sessionStorage.setItem("saiuHouse", "false");
-        sessionStorage.setItem("proximaFase", "false")
+        sessionStorage.setItem("proximaFase", "false");
         gsap.to(overlay, {
           opacity: 1,
           onComplete: () => {
-            window.location.href = '../House/index.html';
+            window.location.href = "../House/index.html";
             gsap.to(overlay, {
-                opacity: 0,
-            })
-          }
+              opacity: 0,
+            });
+          },
         });
       },
     },
@@ -129,20 +130,20 @@ const player = new Player({
       loop: false,
       onComplete: () => {
         console.log("proximo nivel");
-        sessionStorage.setItem("proximaFase", "villaUmParaVillaDois")
+        sessionStorage.setItem("proximaFase", "villaUmParaVillaDois");
         gsap.to(overlay, {
           opacity: 1,
           onComplete: () => {
-            window.location.href = '../VillageSecond/index.html';
+            window.location.href = "../VillageSecond/index.html";
             gsap.to(overlay, {
-                opacity: 0,
-            })
-          }
+              opacity: 0,
+            });
+          },
         });
       },
     },
   },
-})
+});
 
 //Door
 const doors = [
@@ -157,7 +158,6 @@ const doors = [
     loop: false,
     autoplay: false,
   }),
-  
 ];
 
 //Default keys position (Not pressed)
@@ -176,11 +176,38 @@ const keys = {
   w: {
     pressed: false,
   },
+  D: {
+    pressed: false,
+  },
+  A: {
+    pressed: false,
+  },
+
+  V: {
+    pressed: false,
+  },
+
+  W: {
+    pressed: false,
+  },
 
   Space: {
     pressed: false,
-  }
+  },
+
+  ArrowRight: {
+    pressed: false,
+  },
+
+  ArrowLeft: {
+    pressed: false,
+  },
+
+  ArrowUp: {
+    pressed: false,
+  },
 };
+
 
 //Background definition
 const background = new Sprite({
@@ -189,16 +216,16 @@ const background = new Sprite({
     y: -320,
   },
   imageSrc: "./img/Background/BackgroundVillage.png",
-})
+});
 
-const backgroundImageHeight = 576
+const backgroundImageHeight = 576;
 
 const camera = {
   position: {
     x: 0,
     y: -backgroundImageHeight + scaledCanvas.height,
   },
-}
+};
 
 //----------------------------------------------------------------//
 //ANIMATION
@@ -210,20 +237,18 @@ const overlay = {
 
 //Animation (loop)
 function animate() {
-  window.requestAnimationFrame(animate)
-  c.fillStyle = 'white'
-  c.fillRect(0, 0, canvas.width, canvas.height)
+  window.requestAnimationFrame(animate);
+  c.fillStyle = "white";
+  c.fillRect(0, 0, canvas.width, canvas.height);
 
-  c.save()
-  c.translate(camera.position.x, camera.position.y)
-  background.update()
+  c.save();
+  c.translate(camera.position.x, camera.position.y);
+  background.update();
   collisionBlocks.forEach((collisionBlock) => {
-    collisionBlock.update()
-   
-  })
+    collisionBlock.update();
+  });
 
- 
-  player.checkForHorizontalCanvasCollision()
+  player.checkForHorizontalCanvasCollision();
 
   //Animate Objects
   //animate door
@@ -231,51 +256,56 @@ function animate() {
     door.update(); // Animate door sprites
   });
 
-  player.update()
+  player.update();
 
   player.velocity.x = 0;
-    //Right
-    if (keys.d.pressed && player.enteringDoor === false && !player.nextingLevel) {
-      player.switchSprite("RunRight");
-      player.velocity.x = 5; 
-      player.lastDirection = "right";
-      
-    }
+  //Right
+  if (keys.d.pressed && player.enteringDoor === false && !player.nextingLevel) {
+    player.switchSprite("RunRight");
+    player.velocity.x = 5;
+    player.lastDirection = "right";
+  }
 
-    //Left
-    else if (keys.a.pressed && player.enteringDoor === false && !player.nextingLevel) {
-      player.switchSprite("Run");
-      player.velocity.x = -5;
-      player.lastDirection = "left";
-     
-    }
+  //Left
+  else if (
+    keys.a.pressed &&
+    player.enteringDoor === false &&
+    !player.nextingLevel
+  ) {
+    player.switchSprite("Run");
+    player.velocity.x = -5;
+    player.lastDirection = "left";
+  }
 
-    //Stoped
-    
-    else if (player.velocity.y === 0 && !player.enteringDoor && !player.nextingLevel) {
-      if (player.lastDirection === "left") player.switchSprite("Stoped");
-      else player.switchSprite("StopedRight");
-    }
+  //Stoped
+  else if (
+    player.velocity.y === 0 &&
+    !player.enteringDoor &&
+    !player.nextingLevel
+  ) {
+    if (player.lastDirection === "left") player.switchSprite("Stoped");
+    else player.switchSprite("StopedRight");
+  }
 
-    //Move the player
-    if ((player.velocity.y < 0 || player.velocity.y > 0) && player.velocity.x < 0)
-      player.switchSprite("Jump");
-    else if (
-      (player.velocity.y < 0 || player.velocity.y > 0) &&
-      player.velocity.x > 0
-    )
-      player.switchSprite("JumpRight");
+  //Move the player
+  if ((player.velocity.y < 0 || player.velocity.y > 0) && player.velocity.x < 0)
+    player.switchSprite("Jump");
+  else if (
+    (player.velocity.y < 0 || player.velocity.y > 0) &&
+    player.velocity.x > 0
+  )
+    player.switchSprite("JumpRight");
 
-    //Boost (BUG)
-    // if (keys.v.pressed) {
-    //     player.animations.Run.frameBuffer = 1;
-    //     player.animations.RunRight.frameBuffer = 1
-    //     if (keys.d.pressed) player.velocity.x = 8;
-    //     else if (keys.a.pressed) player.velocity.x = -8;
-    // }
-    // else if (player.animations.Run.frameBuffer = 2, player.animations.RunRight.frameBuffer = 2)
+  //Boost (BUG)
+  // if (keys.v.pressed) {
+  //     player.animations.Run.frameBuffer = 1;
+  //     player.animations.RunRight.frameBuffer = 1
+  //     if (keys.d.pressed) player.velocity.x = 8;
+  //     else if (keys.a.pressed) player.velocity.x = -8;
+  // }
+  // else if (player.animations.Run.frameBuffer = 2, player.animations.RunRight.frameBuffer = 2)
 
-  c.restore()
+  c.restore();
 
   //Black Transition Next Level animation
   c.save();
@@ -285,37 +315,30 @@ function animate() {
   c.restore();
 }
 
-
-
-animate()
+animate();
 
 //When Key is pressed
-window.addEventListener('keydown', (event) => {
+window.addEventListener("keydown", (event) => {
   if (player.preventInput) return;
   if (event.repeat) return;
 
   switch (event.key) {
-    case 'd':
-      keys.d.pressed = true
-      break
-    case 'a':
-      keys.a.pressed = true
-      break
+    case "d":
+      keys.d.pressed = true;
+      break;
+    case "a":
+      keys.a.pressed = true;
+      break;
     case "w":
       if (player.velocity.y === 0) player.velocity.y = -10;
 
       break;
 
-      case "v":
+    case "v":
       keys.v.pressed = true;
       break;
 
-      case " ":
-        
-
-        
-  
-
+    case " ":
       for (let i = 0; i < doors.length; i++) {
         const door = doors[i];
         if (
@@ -337,19 +360,19 @@ window.addEventListener('keydown', (event) => {
       break;
   }
   event.preventDefault();
-})
+});
 
-window.addEventListener('keyup', (event) => {
+window.addEventListener("keyup", (event) => {
   switch (event.key) {
-    case 'd':
-      keys.d.pressed = false
-      break
-    case 'a':
-      keys.a.pressed = false
-      break
+    case "d":
+      keys.d.pressed = false;
+      break;
+    case "a":
+      keys.a.pressed = false;
+      break;
 
-      case "v":
+    case "v":
       keys.v.pressed = false;
       break;
   }
-})
+});

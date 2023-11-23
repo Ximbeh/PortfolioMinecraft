@@ -40,19 +40,20 @@ floorCollision2D.forEach((row, y) => {
 //NEW ITENS
 
 //Player
-var saiuHouse = sessionStorage.getItem("saiuHouse")
-var entrouHouse = sessionStorage.getItem("entrouHouse")
+var saiuHouse = sessionStorage.getItem("saiuHouse");
+var entrouHouse = sessionStorage.getItem("entrouHouse");
 
 const player = new Player({
-  position: entrouHouse==="true"?{
-    x: 820,
-    y: 320,
-  }
-  :
-  {
-    x:100,
-    y:320
-  },
+  position:
+    entrouHouse === "true"
+      ? {
+          x: 820,
+          y: 320,
+        }
+      : {
+          x: 100,
+          y: 320,
+        },
   collisionBlocks,
   opacity: 100,
   imageSrc: "./img/Steve/Respiração.png",
@@ -62,7 +63,7 @@ const player = new Player({
       imageSrc: "./img/Steve/Respiração.png",
       frameRate: 28,
       frameBuffer: 24,
-      loop: true, 
+      loop: true,
     },
     StopedRight: {
       imageSrc: "./img/Steve/RespiraçãoRight.png",
@@ -103,7 +104,7 @@ const player = new Player({
         console.log("completo");
         sessionStorage.setItem("saiuHouse", "true");
         sessionStorage.setItem("entrouHouse", "false");
-        sessionStorage.setItem("voltaFase", "false")
+        sessionStorage.setItem("voltaFase", "false");
 
         gsap.to(overlay, {
           opacity: 1,
@@ -221,18 +222,16 @@ const Chests = [
 
 //Ui Chest
 const UiChests = [
-    new Sprite ({
-      position: {
-        x: 320,
-        y: 50,
-      },
-      imageSrc: "./img/Objects/Chest/UI/UI.png",
-      frameRate: 1,
-      opacity: 0,
-      
-    })
-
-]
+  new Sprite({
+    position: {
+      x: 320,
+      y: 50,
+    },
+    imageSrc: "./img/Objects/Chest/UI/UI.png",
+    frameRate: 1,
+    opacity: 0,
+  }),
+];
 
 //Bed
 const Beds = [
@@ -326,7 +325,7 @@ const keys = {
 
   ArrowUp: {
     pressed: false,
-  }
+  },
 };
 
 const camera = {
@@ -380,7 +379,7 @@ function animate() {
 
   //CHEST UI
   //Appear chest UI
-  UiChests.forEach((UiChest) =>{
+  UiChests.forEach((UiChest) => {
     UiChest.update();
   });
 
@@ -390,8 +389,6 @@ function animate() {
   });
 
   player.update();
-  
-  
 
   player.handleInput(keys);
   c.restore();
@@ -438,7 +435,7 @@ window.addEventListener("keydown", (event) => {
       keys.v.pressed = true;
       break;
 
-      case "D":
+    case "D":
       keys.d.pressed = true;
       break;
 
@@ -458,13 +455,13 @@ window.addEventListener("keydown", (event) => {
       keys.d.pressed = true;
       break;
 
-      case "ArrowUp":
-        if (player.velocity.y === 0) player.velocity.y = -10;
-        break;
+    case "ArrowUp":
+      if (player.velocity.y === 0) player.velocity.y = -10;
+      break;
 
-        case "ArrowLeft": 
-        keys.a.pressed = true;
-        break;
+    case "ArrowLeft":
+      keys.a.pressed = true;
+      break;
 
     case " ":
     case "Enter":
@@ -472,9 +469,9 @@ window.addEventListener("keydown", (event) => {
       let isPlayerNearChest = false;
 
       for (let i = 0; i < Chests.length; i++) {
-        const UiChest = UiChests[i]
+        const UiChest = UiChests[i];
         const Chest = Chests[i];
-        
+
         if (
           player.hitbox.position.x <= Chest.position.x + Chest.width &&
           player.hitbox.position.x + player.hitbox.width >= Chest.position.x &&
@@ -483,48 +480,44 @@ window.addEventListener("keydown", (event) => {
         ) {
           if (Chest.id === 1) {
             if (!ChestOpened1) {
-              UiChest.opacity = 100
-              player.opacity = 0
+              UiChest.opacity = 100;
+              player.opacity = 0;
               Chest.opacity = 100; // Baú fica opaco quando aberto
               ChestOpened1 = true;
               console.log("Chest 1 aberto");
               Chest.play();
               let itensChest = document.getElementById("itensChest");
               itensChest.style.display = "grid";
-
             } else {
-              UiChest.opacity = 0
-              player.opacity = 100
+              UiChest.opacity = 0;
+              player.opacity = 100;
               player.position = {
                 x: 448,
                 y: 341,
-              }
+              };
               Chest.opacity = 0; // Baú fica transparente quando fechado
               ChestOpened1 = false;
               console.log("Chest 1 fechado");
               Chest.play();
               let itensChest = document.getElementById("itensChest");
               itensChest.style.display = "none";
-
-
             }
             isPlayerNearChest = true;
             break;
           } else if (Chest.id === 2) {
             if (!ChestOpened2) {
-              UiChests.opacity = 100
-              player.opacity = 0
+              UiChests.opacity = 100;
+              player.opacity = 0;
               Chest.opacity = 0; // Baú fica opaco quando aberto
               ChestOpened2 = true;
               console.log("Chest 2 aberto");
               Chest.play();
             } else {
-              
-              player.opacity = 100
+              player.opacity = 100;
               player.position = {
                 x: 448,
                 y: 341,
-              }
+              };
               Chest.opacity = 100; // Baú fica transparente quando fechado
               ChestOpened2 = false;
               console.log("Chest 2 fechado");
@@ -536,15 +529,14 @@ window.addEventListener("keydown", (event) => {
         }
       }
 
-
-
       if (!isPlayerNearChest) {
         for (let i = 0; i < Tutorial.length; i++) {
           const Tutorials = Tutorial[i];
 
           //Interagir com NPC Cairé
           if (
-            player.hitbox.position.x <= Tutorials.position.x + Tutorials.width &&
+            player.hitbox.position.x <=
+              Tutorials.position.x + Tutorials.width &&
             player.hitbox.position.x + player.hitbox.width >=
               Tutorials.position.x &&
             player.hitbox.position.y + player.hitbox.height >=
@@ -552,12 +544,12 @@ window.addEventListener("keydown", (event) => {
             player.hitbox.position.y <= Tutorials.position.y + Tutorials.height
           ) {
             player.opacity = 0;
-            
+
             var overlayTalk = document.getElementById("overlayTalk");
             var talk = document.getElementById("talk");
             var closeButton = document.getElementById("closeButton");
             var nextButton = document.getElementById("nextButton");
-  
+
             var images = [
               "./img/Objects/Talks/TalkTest.png",
               "./img/Objects/Talks/TalkCaire2.png",
@@ -566,28 +558,28 @@ window.addEventListener("keydown", (event) => {
               "./img/Objects/Talks/TalkCaire5.png",
               "./img/Objects/Talks/TalkCaire6.png",
             ];
-  
+
             var currentImageIndex = 0;
-  
+
             // Atualiza a imagem exibida
             function updateImage(index) {
               talk.style.backgroundImage = `url('${images[index]}')`;
             }
-  
+
             // Fecha o diálogo
             function hideTalk() {
               overlayTalk.style.display = "none";
               currentImageIndex = 0; // Reinicia o índice para a primeira imagem
               updateImage(currentImageIndex);
               player.opacity = 100;
-              player. position = {
+              player.position = {
                 x: 600,
                 y: 320,
-              }
+              };
             }
-  
+
             closeButton.addEventListener("click", hideTalk);
-  
+
             nextButton.addEventListener("click", function () {
               if (currentImageIndex < images.length - 1) {
                 currentImageIndex++;
@@ -596,7 +588,7 @@ window.addEventListener("keydown", (event) => {
                 hideTalk();
               }
             });
-  
+
             // Mostra o diálogo
             overlayTalk.style.display = "flex";
             overlayTalk.style.zIndex = "99999";
@@ -604,11 +596,7 @@ window.addEventListener("keydown", (event) => {
             updateImage(currentImageIndex);
           }
         }
-
-
-       }
-
-
+      }
 
       //Interagir com as Fornalhas
       const Furnace = Furnaces;
@@ -716,7 +704,6 @@ window.addEventListener("keydown", (event) => {
         }
       }
 
-
       for (let i = 0; i < Beds.length; i++) {
         const Bed = Beds[i];
         if (
@@ -725,11 +712,11 @@ window.addEventListener("keydown", (event) => {
           player.hitbox.position.y + player.hitbox.height >= Bed.position.y &&
           player.hitbox.position.y <= Bed.position.y + Bed.height
         ) {
-          window.open("https://miro.com/welcomeonboard/WThNR3BpTjlGZUJrZm5FRTNFeXV6VHRNRExCejBuTkw3Ukc5bjBDckpRNTdTSFh2S2xpajA5OXlIeHdtUUlUdnwzNDU4NzY0NTE5NDEwNjI4NzM3fDI=?share_link_id=217953828392", "_blank")
-          
-        } 
-
-
+          window.open(
+            "https://miro.com/welcomeonboard/WThNR3BpTjlGZUJrZm5FRTNFeXV6VHRNRExCejBuTkw3Ukc5bjBDckpRNTdTSFh2S2xpajA5OXlIeHdtUUlUdnwzNDU4NzY0NTE5NDEwNjI4NzM3fDI=?share_link_id=217953828392",
+            "_blank"
+          );
+        }
       }
       break;
   }
@@ -751,26 +738,24 @@ window.addEventListener("keyup", (event) => {
       keys.v.pressed = false;
       break;
 
-      case "D":
-        keys.d.pressed = false;
-        break;
-  
-      case "A":
-        keys.a.pressed = false;
-        break;
-  
-      case "V":
-        keys.v.pressed = false;
-        break;
-
-        case "ArrowRight":
+    case "D":
       keys.d.pressed = false;
       break;
 
-      
+    case "A":
+      keys.a.pressed = false;
+      break;
 
-        case "ArrowLeft": 
-        keys.a.pressed = false;
-        break;
+    case "V":
+      keys.v.pressed = false;
+      break;
+
+    case "ArrowRight":
+      keys.d.pressed = false;
+      break;
+
+    case "ArrowLeft":
+      keys.a.pressed = false;
+      break;
   }
 });
