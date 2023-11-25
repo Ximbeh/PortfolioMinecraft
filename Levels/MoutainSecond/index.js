@@ -45,19 +45,15 @@ const gravity = 0.5
 //Players
 var proximaFase = sessionStorage.getItem("proximaFase")
 var voltaFase = sessionStorage.getItem("voltaFase")
-var saiuCaverna = sessionStorage.getItem("saiuCaverna")
 
 const player = new Player({
-  position: saiuCaverna === "true"?{
-    x: 500,
-    y: 200,
-  }
+  position
   : proximaFase==="montanhaUmParaMontanhaDois"?{
     x: 2,
     y: 200,
   }
   : voltaFase = "cavernaParaMontanha"?{
-    x: 940,
+    x: 820,
     y: 320,
   }
   :
@@ -132,14 +128,12 @@ const player = new Player({
       loop: false,
       onComplete: () => {
         console.log("completo");
-        sessionStorage.setItem("entrouCavenra", "true");
-        sessionStorage.setItem("saiuCavenra", "false");
-        sessionStorage.setItem("proximaFase", "false")
+        sessionStorage.setItem("proximaFase", "entrouCaverna")
         sessionStorage.setItem("voltaFase", "false")
         gsap.to(overlay, {
           opacity: 1,
           onComplete: () => {
-            window.location.href = '../CavernaUm/index.html';
+            window.location.href = '../Cavern/index.html';
             gsap.to(overlay, {
                 opacity: 0,
             })
