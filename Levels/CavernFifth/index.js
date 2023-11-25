@@ -366,90 +366,28 @@ window.addEventListener('keydown', (event) => {
       case "Enter":
       case "Escape":
 
-        for (let i = 0; i < NPCS.length; i++) {
-          const NPC = NPCS[i];
+      for (let i = 0; i < NPCS.length; i++) {
+        const NPC = NPCS[i];
 
-          //Interagir com NPC Jaiza
-          if (
-            player.hitbox.position.x <= NPC.position.x + NPC.width &&
-            player.hitbox.position.x + player.hitbox.width >=
-              NPC.position.x &&
-            player.hitbox.position.y + player.hitbox.height >=
-              NPC.position.y &&
-            player.hitbox.position.y <= NPC.position.y + NPC.height
-          ) {
-            player.opacity = 0;
-            
-            var overlayTalk = document.getElementById("overlayTalk");
-            var talk = document.getElementById("talk");
-            var closeButton = document.getElementById("closeButton");
-            var nextButton = document.getElementById("nextButton");
-            var linkButtons1 = document.getElementById("linkButtons1");
-            var linkButton1 = document.getElementById("linkButton1");
-            var linkButtons2 = document.getElementById("linkButtons2");
-            var linkButton2 = document.getElementById("linkButton2");
-  
-            var images = [
-              "./img/Objects/NPC/talk1.png",
-              "./img/Objects/NPC/talk2.png",
-              "./img/Objects/NPC/talk3.png",
-             
-            ];
-  
-            var currentImageIndex = 0;
-  
-             // Atualiza a imagem exibida
-             function updateImage(index) {
-              talk.style.backgroundImage = `url('${images[index]}')`;
-              console.log(images[index]);
-              if (images[index] === "./img/Objects/NPC/talk2.png"){
-                linkButtons1.style.display = "flex";
-                linkButton1.style.display = "block";
-              } else if (images[index] ===  "./img/Objects/NPC/talk3.png"){
-                linkButtons2.style.display = "flex";
-                linkButton2.style.display = "block";
-              } 
-            }
-
-            linkButtons1.onclick = function () {
-              window.open("https://docs.google.com/document/d/1-DVWrz6oXLsxO3ExK082Ubn7GwX54Ga5_khZRbR9qwc/edit?usp=sharing", "_blank")
-            }
-  
-            linkButtons2.onclick = function () {
-              window.open("https://docs.google.com/document/d/126SBP6wB_Du4q4TKS3aw0To9wxmywTmcwPZMU6Wn82g/edit?usp=sharing", "_blank")
-            }
-  
-            // Fecha o diálogo
-            function hideTalk() {
-              overlayTalk.style.display = "none";
-              currentImageIndex = 0; // Reinicia o índice para a primeira imagem
-              updateImage(currentImageIndex);
-              player.opacity = 100;
-              player. position = {
-                x: 450,
-                y: 320,
-              }
-            }
-  
-            closeButton.addEventListener("click", hideTalk);
-  
-            nextButton.addEventListener("click", function () {
-              if (currentImageIndex < images.length - 1) {
-                currentImageIndex++;
-                updateImage(currentImageIndex);
-              } else {
-                hideTalk();
-              }
-            });
-  
-            // Mostra o diálogo
-            overlayTalk.style.display = "flex";
-            overlayTalk.style.zIndex = "99999";
-            talk.style.display = "flex";
-            updateImage(currentImageIndex);
-          }
+        //Interagir com NPC Jaiza
+        if (
+          player.hitbox.position.x <= NPC.position.x + NPC.width &&
+          player.hitbox.position.x + player.hitbox.width >= NPC.position.x &&
+          player.hitbox.position.y + player.hitbox.height >= NPC.position.y &&
+          player.hitbox.position.y <= NPC.position.y + NPC.height
+        ) {
+          player.opacity = 100;
+          
+          // Remova a animação GSAP
+          
+          console.log("passar nivel");
+          // player.lastDirection = "left";
+        
+          // Abra o link em outra página
+          window.open('https://www.canva.com/design/DAF1I0ovR6E/YzHfh0G4jlaXqDRXe_LSew/view?utm_content=DAF1I0ovR6E&utm_campaign=designshare&utm_medium=link&utm_source=editor', '_blank');
         }
-        break;
+      break;
+      }
   }
   event.preventDefault();
 })
