@@ -150,12 +150,12 @@ const player = new Player({
 const NPCS = [
   new Sprite({
     position: {
-      x: 600,
-      y: 100,
+      x: 350,
+      y: 80,
     },
     imageSrc: "./img/Objects/NPC/morcego.png",
-    frameRate: 52,
-    frameBuffer: 4,
+    frameRate: 6,
+    frameBuffer: 7,
     autoplay: true,
     opacity: 100,
   }),

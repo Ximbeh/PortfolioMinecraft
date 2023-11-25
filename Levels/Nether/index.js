@@ -200,11 +200,11 @@ const PORTALS = [
 const NPCS = [
   new Sprite({
     position: {
-      x: 480,
-      y: 320,
+      x: 750,
+      y: 190,
     },
     imageSrc: "./img/Objects/NPC/Jeyza.png",
-    frameRate: 7,
+    frameRate: 11,
     frameBuffer: 20,
     autoplay: true,
     opacity: 100,
